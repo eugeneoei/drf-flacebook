@@ -8,10 +8,10 @@ from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
     # declaring a field as write_only ensures field is not returned in response
+    # by default, required is True
     password = serializers.CharField(write_only=True)
-
-    avatar_id = serializers.CharField(write_only=True)
-    has_avatar = serializers.BooleanField(write_only=True)
+    avatar_id = serializers.CharField(required=False, write_only=True)
+    has_avatar = serializers.BooleanField(required=False, write_only=True)
 
     class Meta:
         model = User
@@ -73,8 +73,11 @@ class UserInfoSerializer(serializers.ModelSerializer):
 
 
 class UserAvatarSerializer(serializers.ModelSerializer):
+    # not declaring serializer for field means read and write allowed
     class Meta:
         model = User
         fields = [
-            "avatar"
+            "avatar",
+            "avatar_id",
+            "has_avatar"
         ]

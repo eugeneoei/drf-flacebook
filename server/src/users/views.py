@@ -1,11 +1,13 @@
 from pprint import pprint
 from django.http import QueryDict
+from django.shortcuts import redirect
+from rest_framework.mixins import UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status, permissions, serializers
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import UpdateAPIView
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework.generics import UpdateAPIView, GenericAPIView
 from rest_framework.views import APIView
 
 from .models import User
@@ -31,8 +33,8 @@ class UserViewSet(ModelViewSet):
         2. overwrite create method for validation and uploading of avatar url before object is created
         """
         email = request.data.get("email")
-        first_name = request.data.get("first_name")
-        last_name = request.data.get("last_name")
+        # first_name = request.data.get("first_name")
+        # last_name = request.data.get("last_name")
         password = request.data.get("password")
         confirm_password = request.data.get("confirm_password")
         avatar_file = request.data.pop("avatar", None)
@@ -50,13 +52,13 @@ class UserViewSet(ModelViewSet):
             )
 
         if avatar_file:
-            file_name = f"{first_name}-{last_name}-avatar"
-            avatar_response = upload_file(avatar_file[0], file_name)
+            print("has avatar file")
+            avatar_response = upload_file(avatar_file[0], "avatar")
             request.data.__setitem__("avatar", avatar_response["url"])
             request.data.__setitem__("avatar_id", avatar_response["id"])
             request.data.__setitem__("has_avatar", True)
 
-        return super().create(request, args, kwargs)
+        return super().create(request, *args, **kwargs)
 
     @staticmethod
     def email_exist(email):
@@ -139,8 +141,6 @@ class UserViewSet(ModelViewSet):
         print("upload new avatar")
         return upload_file(file, file_name)
 
-        # return 1
-
     @staticmethod
     def update_password(new_password, confirm_new_password):
         pass
@@ -184,10 +184,40 @@ class UserViewSet(ModelViewSet):
 #     http_method_names = ["head", "patch"]
 
 
-class UserPasswordUpdateAPIView(APIView):
+class UserAvatarUpdateView(UpdateModelMixin, GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserAvatarSerializer
     permission_classes = [IsAuthenticated, IsUserObjectOwner]
+    http_method_names = ["head", "patch"]
 
-    def patch(self, request):
-        return self.partial_update(request, *args, **kwargs)
+    @staticmethod
+    def update_avatar(current_avatar_id, file, file_name):
+        # delete current file from imageKit
+        if current_avatar_id:
+            print("delete current avatar from imagekit")
+            delete_file(current_avatar_id)
+
+        # uploads new avatar file
+        print("upload new avatar")
+        return upload_file(file, file_name)
+
+    def partial_update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        user_object = User.objects.get(email=self.request.user)
+        user = UserAvatarSerializer(user_object).data
+
+        avatar_file = request.data.pop("avatar", None)
+        current_avatar_id = None if user.get("avatar_id") == "" else user.get("avatar_id")
+        print("current_avatar_id >>>", current_avatar_id)
+        if avatar_file:
+            new_avatar = self.update_avatar(current_avatar_id, avatar_file[0], "avatar")
+            request.data.__setitem__("avatar", new_avatar["url"])
+            request.data.__setitem__("avatar_id", new_avatar["id"])
+            request.data.__setitem__("has_avatar", True)
+            self.update(request, *args, **kwargs)
+            return redirect("user_auth")
+
+        return Response(
+            {"avatar": ["Avatar file is required."]},
+            status=status.HTTP_400_BAD_REQUEST
+        )
