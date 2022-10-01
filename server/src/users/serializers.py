@@ -3,6 +3,7 @@ from rest_framework import serializers
 # from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 # from rest_framework_simplejwt.views import TokenObtainPairView
 
+from utils.exceptions import APIException400
 from .models import User
 
 
@@ -62,6 +63,17 @@ class UserSerializer(serializers.ModelSerializer):
     #     return super().validate(attrs)
 
 
+class UserAvatarSerializer(serializers.ModelSerializer):
+    # not declaring serializer for field means read and write allowed
+    class Meta:
+        model = User
+        fields = [
+            "avatar",
+            "avatar_id",
+            "has_avatar"
+        ]
+
+
 class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -72,12 +84,12 @@ class UserInfoSerializer(serializers.ModelSerializer):
         ]
 
 
-class UserAvatarSerializer(serializers.ModelSerializer):
-    # not declaring serializer for field means read and write allowed
+class UserPasswordSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = [
-            "avatar",
-            "avatar_id",
-            "has_avatar"
-        ]
+        fields = ["password"]
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data["password"])
+        instance.save()
+        return instance

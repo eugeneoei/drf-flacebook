@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 
 from .models import User
 from .permissions import IsUserObjectOwner
-from .serializers import UserSerializer, UserInfoSerializer, UserAvatarSerializer
+from .serializers import UserSerializer, UserInfoSerializer, UserAvatarSerializer, UserPasswordSerializer
 
 from utils.imagekit import upload_file, delete_file
 
@@ -200,7 +200,6 @@ class UserAvatarUpdateView(UpdateModelMixin, GenericViewSet):
         return upload_file(file, file_name)
 
     def partial_update(self, request, *args, **kwargs):
-        kwargs["partial"] = True
         user_object = User.objects.get(email=self.request.user)
         user = UserAvatarSerializer(user_object).data
 
@@ -211,7 +210,7 @@ class UserAvatarUpdateView(UpdateModelMixin, GenericViewSet):
             request.data.__setitem__("avatar", new_avatar["url"])
             request.data.__setitem__("avatar_id", new_avatar["id"])
             request.data.__setitem__("has_avatar", True)
-            self.update(request, *args, **kwargs)
+            super().partial_update(request, *args, **kwargs)
             return redirect("user_auth")
 
         return Response(
@@ -227,6 +226,85 @@ class UserInfoUpdateView(UpdateModelMixin, GenericViewSet):
     http_method_names = ["head", "patch"]
 
     def partial_update(self, request, *args, **kwargs):
-        kwargs["partial"] = True
-        self.update(request, *args, **kwargs)
+        super().partial_update(request, *args, **kwargs)
         return redirect("user_auth")
+
+
+class UserPasswordUpdateView(UpdateModelMixin, GenericViewSet):
+    # class UserPasswordUpdateView(UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserPasswordSerializer
+    permission_classes = [IsAuthenticated, IsUserObjectOwner]
+    http_method_names = ["head", "patch"]
+
+    # # @staticmethod
+    # # def update_avatar(current_avatar_id, file, file_name):
+    # #     # delete current file from imageKit
+    # #     if current_avatar_id:
+    # #         delete_file(current_avatar_id)
+    # #
+    # #     # uploads new avatar file
+    # #     return upload_file(file, file_name)
+    #
+
+    @staticmethod
+    def validate_update_password_fields(data):
+        errors = {}
+        old_password = data.get("old_password", None)
+        new_password = data.get("new_password", None)
+        confirm_password = data.get("confirm_new_password", None)
+
+        if not old_password:
+            errors["old_password"] = ["This field is required."]
+
+        if not new_password:
+            errors["new_password"] = ["This field is required."]
+
+        if not confirm_password:
+            errors["confirm_password"] = ["This field is required."]
+
+        return errors
+
+    @staticmethod
+    def is_old_password_correct(user, old_password):
+        return user.check_password(old_password)
+
+    @staticmethod
+    def does_new_password_and_confirm_new_password_match(new_password, confirm_new_password):
+        return new_password == confirm_new_password
+
+    def partial_update(self, request, *args, **kwargs):
+        validation_errors = self.validate_update_password_fields(request.data)
+        if len(validation_errors.keys()) > 0:
+            return Response(
+                validation_errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        old_password = request.data.get("old_password", None)
+        if not self.is_old_password_correct(self.request.user, old_password):
+            return Response(
+                {"old_password": ["Old password is incorrect."]},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        new_password = request.data.get("new_password", None)
+        confirm_password = request.data.get("confirm_new_password", None)
+        if not self.does_new_password_and_confirm_new_password_match(new_password, confirm_password):
+            return Response(
+                {"password": ["New password and confirm new password do not match."]},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        request.data.__setitem__("password", new_password)
+
+        super().partial_update(request, *args, **kwargs)
+        return Response(
+            None,
+            status=status.HTTP_204_NO_CONTENT
+        )
+
+        # return Response(
+        #     "ok",
+        #     status=status.HTTP_200_OK
+        # )
