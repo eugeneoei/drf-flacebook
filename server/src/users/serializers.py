@@ -1,9 +1,5 @@
 from rest_framework import serializers
 
-# from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-# from rest_framework_simplejwt.views import TokenObtainPairView
-
-from utils.exceptions import APIException400
 from .models import User
 
 
@@ -26,41 +22,10 @@ class UserSerializer(serializers.ModelSerializer):
             "avatar_id",
             "has_avatar"
         ]
-        # extra_kwargs = {
-        #     "password": {
-        #         "write_only": True
-        #     }
-        # }
 
     # create method here is necessary in order for password to be hashed
     def create(self, validated_data):
-        # print("serializer create")
-        # print(validated_data)
         return User.objects.create_user(**validated_data)
-
-    # def validate_password_and_confirm_password_match(self, password, confirm_password):
-    #     if not password == confirm_password:
-    #         raise serializers.ValidationError({
-    #             'error': 'Password and confirm password do not match.'
-    #         })
-    #     return
-    #
-    # def validate(self, attrs):
-    #     print("serializer validate")
-    #     print("type >>>", type(attrs))
-    #     """
-    #     validate that:
-    #     1. password and confirm_password match
-    #     2. email does not exist in DB
-    #     """
-    #     data = self.context.get("request").data
-    #     password = data.get("password")
-    #     confirm_password = data.get("confirm_password", None)
-    #     # email = data.get("email")
-    #
-    #     self.validate_password_and_confirm_password_match(password, confirm_password)
-    #
-    #     return super().validate(attrs)
 
 
 class UserAvatarSerializer(serializers.ModelSerializer):

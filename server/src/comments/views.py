@@ -1,25 +1,16 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.viewsets import ModelViewSet
+from posts.models import Post
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
 
 from .models import Comment
 from .permissions import IsCommentOwner
 from .serializers import CommentSerializer
-from posts.models import Post
-
-
-# class CommentsPagination(PageNumberPagination):
-#     page_size = 2
-#     # page_size_query_param = 'page_size'
-#     # max_page_size = 10000
 
 
 class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-
-    # pagination_class = CommentsPagination
 
     def get_queryset(self):
         queryset = Comment.objects.all()

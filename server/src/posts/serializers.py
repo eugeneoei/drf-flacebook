@@ -1,19 +1,14 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from django.core.paginator import Paginator
 from app.settings import COMMENTS_PAGE_SIZE
+from comments.serializers import CommentSerializer
+from django.core.paginator import Paginator
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from users.serializers import UserSerializer
 
 from .models import Post
-from users.serializers import UserSerializer
-from comments.serializers import CommentSerializer
 
 
 class PostSerializer(ModelSerializer):
     user = UserSerializer(read_only=True)
-
-    # this method returns all comments
-    # comments = CommentSerializer(read_only=True, many=True)
-
-    # this method returns paginated comments
     comments = SerializerMethodField("get_paginated_comments")
 
     class Meta:

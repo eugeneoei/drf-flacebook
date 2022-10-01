@@ -1,9 +1,9 @@
 import uuid
+
+from app.settings import PLACEHOLDER_ACCOUNT_IMAGE
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from django.utils import timezone
-
-from app.settings import PLACEHOLDER_ACCOUNT_IMAGE
 
 from .managers import UserManager
 

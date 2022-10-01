@@ -9,7 +9,6 @@ from .serializers import PostSerializer
 
 class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
-    paginate_by = 2
     """
     # OrderingFilter
     by default, the query parameter is named "ordering"

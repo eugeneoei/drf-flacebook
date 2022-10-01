@@ -6,9 +6,6 @@ from users.models import User
 from users.serializers import UserSerializer
 
 
-# from .permissions import IsAuthOwner
-
-
 class AuthDetail(APIView):
     permission_classes = [IsAuthenticated]
 
