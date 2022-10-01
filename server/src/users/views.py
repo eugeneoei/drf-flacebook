@@ -194,11 +194,9 @@ class UserAvatarUpdateView(UpdateModelMixin, GenericViewSet):
     def update_avatar(current_avatar_id, file, file_name):
         # delete current file from imageKit
         if current_avatar_id:
-            print("delete current avatar from imagekit")
             delete_file(current_avatar_id)
 
         # uploads new avatar file
-        print("upload new avatar")
         return upload_file(file, file_name)
 
     def partial_update(self, request, *args, **kwargs):
@@ -208,7 +206,6 @@ class UserAvatarUpdateView(UpdateModelMixin, GenericViewSet):
 
         avatar_file = request.data.pop("avatar", None)
         current_avatar_id = None if user.get("avatar_id") == "" else user.get("avatar_id")
-        print("current_avatar_id >>>", current_avatar_id)
         if avatar_file:
             new_avatar = self.update_avatar(current_avatar_id, avatar_file[0], "avatar")
             request.data.__setitem__("avatar", new_avatar["url"])
@@ -221,3 +218,15 @@ class UserAvatarUpdateView(UpdateModelMixin, GenericViewSet):
             {"avatar": ["Avatar file is required."]},
             status=status.HTTP_400_BAD_REQUEST
         )
+
+
+class UserInfoUpdateView(UpdateModelMixin, GenericViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserInfoSerializer
+    permission_classes = [IsAuthenticated, IsUserObjectOwner]
+    http_method_names = ["head", "patch"]
+
+    def partial_update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        self.update(request, *args, **kwargs)
+        return redirect("user_auth")
