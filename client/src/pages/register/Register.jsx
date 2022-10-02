@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, Navigate } from "react-router-dom";
 
-// import { useRegister } from "../../hooks/auth/useRegister";
-// import { useLoggedInUser } from "../../contexts/auth/useLoggedInUser";
+import { useRegister } from "./hooks/useRegister";
+import { useLoggedInUser } from "../../contexts/useLoggedInUser";
 import { registerSchema } from "../../schemas/registerSchema";
 
 import { LoginRegisterFormLayout } from "../../components/layouts/LoginRegisterFormLayout";
@@ -14,9 +14,8 @@ import { AlertSnackbar } from "../../components/ui/AlertSnackbar";
 
 const Register = () => {
 
-    // const navigate = useNavigate();
-    // const { registerUser, isRegisterLoading, registrationError } = useRegister();
-    // const { loggedInUser } = useLoggedInUser();
+    const { registerUser, isRegisterLoading, registrationError } = useRegister();
+    const { loggedInUser } = useLoggedInUser();
 
     const {
         register,
@@ -27,23 +26,24 @@ const Register = () => {
     });
 
     const handleRegister = async data => {
-        // await registerUser(data)
+        // todo: log user in programatically after registration is successful
+        await registerUser(data)
         // navigate("/login", { replace: true });
         console.log("registering in >>", data)
     };
 
-    // if (loggedInUser) {
-    //     return <Navigate replace to="/login" />;
-    // }
+    if (loggedInUser) {
+        return <Navigate replace to="/login" />;
+    }
 
     return (
         <LoginRegisterFormLayout>
             <h3 className="text-xl text-center font-bold tracking-wider">
                 Register
             </h3>
-            {/* {registrationError && !isRegisterLoading && (
+            {registrationError && !isRegisterLoading && (
                 <AlertSnackbar message={registrationError} />
-            )} */}
+            )}
             <form onSubmit={handleSubmit(handleRegister)}>
                 <div className="mt-4">
                     <label htmlFor="firstName" className="block">
@@ -120,13 +120,12 @@ const Register = () => {
                         <AlertInput message={errors.confirmPassword.message} />
                     )}
                 </div>
-                {/* <div className="mt-6">
+                <div className="mt-6">
                     {isRegisterLoading ? <Spinner /> : <Button text="Register" />}
-                </div> */}
-
+                </div>
                 <div className="mt-6 text-center">
                     Already have an account? Click{" "}
-                    <Link to="/register" className="underline hover:opacity-40">
+                    <Link to="/login" className="underline hover:opacity-40">
                         here
                     </Link>{" "}
                     to register an account.
