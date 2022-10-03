@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import { axiosInstance } from "../../../utils/axiosInstance";
 
 const useLogin = () => {
     const [isLoginLoading, setIsLoginLoading] = useState(false);
@@ -8,17 +8,19 @@ const useLogin = () => {
     const login = async (email, password) => {
         setIsLoginLoading(true);
         try {
-            const response = await axios.post(
+            const response = await axiosInstance.post(
                 `${process.env.REACT_APP_API}/auth/login/`,
                 {
                     email,
                     password
                 }
             );
-            return response.data.user
+            const { access, refresh, user } = response;
+            localStorage.setItem("token", access);
+            localStorage.setItem("refresh", refresh);
+            return user;
         } catch (error) {
-            // console.log(error)
-            setLoginError(error.response.data.detail)
+            setLoginError(error.detail);
         } finally {
             setIsLoginLoading(false);
         }

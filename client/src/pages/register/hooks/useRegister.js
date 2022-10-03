@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import { axiosInstance } from "../../../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 const useRegister = () => {
@@ -8,15 +8,10 @@ const useRegister = () => {
     const [isRegisterLoading, setIsRegisterLoading] = useState(false);
     const [registrationError, setRegistrationError] = useState(undefined);
 
-    const registerUser = async ({
-        firstName,
-        lastName,
-        email,
-        password
-    }) => {
+    const registerUser = async ({ firstName, lastName, email, password }) => {
         setIsRegisterLoading(true);
         try {
-            await axios.post(`${process.env.REACT_APP_API}/users/`, {
+            await axiosInstance.post(`${process.env.REACT_APP_API}/users/`, {
                 firstName,
                 lastName,
                 email,
@@ -24,8 +19,8 @@ const useRegister = () => {
             });
             navigate("/login", { replace: true });
         } catch (error) {
-            console.log(error)
-            setRegistrationError(error.response.data.detail);
+            console.log(error);
+            setRegistrationError(error.detail);
         } finally {
             setIsRegisterLoading(false);
         }

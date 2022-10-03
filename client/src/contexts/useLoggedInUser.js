@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import { axiosInstance } from "../utils/axiosInstance";
 
 const LoggedInUserContext = createContext();
 
@@ -16,13 +16,16 @@ const LoggedInUserProvider = ({ children }) => {
     useEffect(() => {
         const initialiseUser = async () => {
             try {
-                const response = await axios.get(
+                const response = await axiosInstance.get(
                     `${process.env.REACT_APP_API}/auth/`
                 );
-                updateUser(response.data)
+                updateUser(response);
             } catch (error) {
-                if (error.response.status >= 500) {
-                    setServerError(error.response.data);
+                const { code } = error;
+                if (code === "ERR_BAD_RESPONSE") {
+                    setServerError(
+                        "An unexpected error occurred. Please try again."
+                    );
                 }
             } finally {
                 setIsLoading(false);
@@ -48,7 +51,9 @@ const LoggedInUserProvider = ({ children }) => {
 const useLoggedInUser = () => {
     const context = useContext(LoggedInUserContext);
     if (context === undefined) {
-        throw new Error("useLoggedInUser must be used within a LoggedInUserProvider.");
+        throw new Error(
+            "useLoggedInUser must be used within a LoggedInUserProvider."
+        );
     }
     return context;
 };

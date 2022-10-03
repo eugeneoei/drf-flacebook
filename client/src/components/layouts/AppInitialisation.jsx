@@ -9,7 +9,7 @@ const AppInitialisation = ({ children }) => {
 
     if (isLoading) {
         return (
-            <div className="text-center">
+            <div className="text-center mt-4">
                 <Spinner />
             </div>
         );
@@ -17,9 +17,12 @@ const AppInitialisation = ({ children }) => {
 
     if (serverError) {
         return (
-            <div>
-                <FontAwesomeIcon icon={faWarning} />
-                <span>{serverError}</span>
+            <div className="p-6 mt-4 text-center">
+                <FontAwesomeIcon
+                    icon={faWarning}
+                    className="text-red-600 h-6 inline-block"
+                />
+                <span className="inline-block mx-4">{serverError}</span>
             </div>
         );
     }
