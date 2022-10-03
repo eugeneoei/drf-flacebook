@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
 import { LoggedInUserProvider } from "./contexts/useLoggedInUser";
-import { Initialisation } from "./components/layouts/Initialisation";
+import { AppInitialisation } from "./components/layouts/AppInitialisation";
 
 const App = () => {
     return (
         <LoggedInUserProvider>
-            <Initialisation>
+            <AppInitialisation>
                 <Outlet />
-            </Initialisation>
+            </AppInitialisation>
         </LoggedInUserProvider>
     );
 };

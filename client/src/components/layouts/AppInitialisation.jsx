@@ -4,7 +4,7 @@ import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { useLoggedInUser } from "../../contexts/useLoggedInUser";
 import { Spinner } from "../ui/Spinner";
 
-const Initialisation = ({ children }) => {
+const AppInitialisation = ({ children }) => {
     const { isLoading, serverError } = useLoggedInUser();
 
     if (isLoading) {
@@ -27,4 +27,4 @@ const Initialisation = ({ children }) => {
     return <>{children}</>;
 };
 
-export { Initialisation };
+export { AppInitialisation };
