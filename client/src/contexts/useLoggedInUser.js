@@ -1,16 +1,27 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { axiosInstance } from "../utils/axiosInstance";
+import {
+    LOCAL_STORAGE_TOKEN,
+    LOCAL_STORAGE_REFRESH_TOKEN
+} from "../constants/app";
 
 const LoggedInUserContext = createContext();
 
 const LoggedInUserProvider = ({ children }) => {
     const [loggedInUser, setLoggedInUser] = useState(undefined);
-
     const [isLoading, setIsLoading] = useState(true);
     const [serverError, setServerError] = useState(undefined);
 
     const updateUser = user => {
         setLoggedInUser(user);
+    };
+
+    const logout = () => {
+        localStorage.removeItem(LOCAL_STORAGE_TOKEN);
+        localStorage.removeItem(LOCAL_STORAGE_REFRESH_TOKEN);
+        setIsLoading(true);
+        setLoggedInUser(undefined);
+        window.location.href = "/";
     };
 
     useEffect(() => {
@@ -38,7 +49,8 @@ const LoggedInUserProvider = ({ children }) => {
         loggedInUser,
         updateUser,
         isLoading,
-        serverError
+        serverError,
+        logout
     };
 
     return (

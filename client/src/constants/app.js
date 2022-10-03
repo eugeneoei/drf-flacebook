@@ -1,0 +1,7 @@
+const LOCAL_STORAGE_TOKEN = "token"
+const LOCAL_STORAGE_REFRESH_TOKEN = "refresh"
+
+export {
+    LOCAL_STORAGE_TOKEN,
+    LOCAL_STORAGE_REFRESH_TOKEN
+}

@@ -1,14 +1,18 @@
 import { Link } from "react-router-dom";
 import { useLoggedInUser } from "../../contexts/useLoggedInUser";
-import Logo from '../../assets/logo.png'
+import Logo from "../../assets/logo.png";
 
 const Navbar = () => {
-    const { loggedInUser } = useLoggedInUser();
+    const { loggedInUser, logout } = useLoggedInUser();
 
     return (
         <nav className="bg-white shadow-xl stick top-0 px-8 py-4 flex items-center">
             <Link to="/" className="flex-none">
-                <img src={Logo} alt="flacebook logo" className="inline-block w-10" />
+                <img
+                    src={Logo}
+                    alt="flacebook logo"
+                    className="inline-block w-10"
+                />
             </Link>
             <div className="grow text-right">
                 {loggedInUser ? (
@@ -21,7 +25,10 @@ const Navbar = () => {
                             />
                             <span className="inline-block mr-2">{`${loggedInUser.firstName} ${loggedInUser.lastName}`}</span>
                         </Link>
-                        <button className="bg-sky-700 text-white py-2 px-3 rounded hover:opacity-80">
+                        <button
+                            className="bg-sky-700 text-white py-2 px-3 rounded hover:opacity-80"
+                            onClick={logout}
+                        >
                             Logout
                         </button>
                     </>
