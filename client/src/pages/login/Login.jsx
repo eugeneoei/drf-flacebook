@@ -24,9 +24,8 @@ const Login = () => {
     const { loggedInUser, updateUser } = useLoggedInUser();
 
     const handleLogin = async data => {
-        console.log("loggin in >>", data)
         const user = await login(data.email, data.password);
-        // updateUser(user);
+        updateUser(user);
     };
 
     if (loggedInUser) {
@@ -50,6 +49,7 @@ const Login = () => {
                         type="email"
                         id="email"
                         defaultValue=""
+                        disabled={isLoginLoading}
                         {...register("email")}
                         className="block w-full mt-2 p-2 rounded"
                     />
@@ -65,6 +65,7 @@ const Login = () => {
                         type="password"
                         id="password"
                         defaultValue=""
+                        disabled={isLoginLoading}
                         {...register("password")}
                         className="block w-full mt-2 p-2 rounded"
                     />
@@ -72,7 +73,7 @@ const Login = () => {
                         <AlertInput message={errors.password.message} />
                     )}
                 </div>
-                <div className="mt-6">
+                <div className="mt-6 text-center">
                     {isLoginLoading ? <Spinner /> : <Button text="Login" />}
                 </div>
                 <div className="mt-6 text-center">

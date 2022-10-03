@@ -15,7 +15,7 @@ const useLogin = () => {
                     password
                 }
             );
-            return response.data
+            return response.data.user
         } catch (error) {
             // console.log(error)
             setLoginError(error.response.data.detail)
