@@ -17,7 +17,7 @@ const useLogin = () => {
             );
             return response.data
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             setLoginError(error.response.data.detail)
         } finally {
             setIsLoginLoading(false);

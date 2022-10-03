@@ -4,7 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 
 import { useRegister } from "./hooks/useRegister";
 import { useLoggedInUser } from "../../contexts/useLoggedInUser";
-import { registerSchema } from "../../schemas/registerSchema";
+import { registerSchema } from "./schemas/registerSchema";
 
 import { LoginRegisterFormLayout } from "../../components/layouts/LoginRegisterFormLayout";
 import { Button } from "../../components/ui/Button";

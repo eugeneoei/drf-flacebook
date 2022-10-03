@@ -24,7 +24,8 @@ const useRegister = () => {
             });
             navigate("/login", { replace: true });
         } catch (error) {
-            setRegistrationError(error.response.data);
+            console.log(error)
+            setRegistrationError(error.response.data.detail);
         } finally {
             setIsRegisterLoading(false);
         }

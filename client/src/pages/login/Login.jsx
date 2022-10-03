@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link, Navigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { loginSchema } from "../../schemas/loginSchema";
+import { loginSchema } from "./schemas/loginSchema";
 import { AlertInput } from "../../components/ui/AlertInput";
 import { useLogin } from "./hooks/useLogin";
 import { useLoggedInUser } from "../../contexts/useLoggedInUser";
