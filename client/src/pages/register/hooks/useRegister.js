@@ -20,7 +20,9 @@ const useRegister = () => {
             navigate("/login", { replace: true });
         } catch (error) {
             console.log(error);
-            setRegistrationError(error.detail);
+            console.log(Object.values(error).join("\n"))
+            setRegistrationError(Object.values(error).join("\n"));
+            // setRegistrationError(error.detail);
         } finally {
             setIsRegisterLoading(false);
         }

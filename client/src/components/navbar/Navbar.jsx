@@ -6,7 +6,7 @@ const Navbar = () => {
     const { loggedInUser, logout } = useLoggedInUser();
 
     return (
-        <nav className="bg-white shadow-xl stick top-0 px-8 py-4 flex items-center">
+        <nav className="bg-white shadow-xl sticky top-0 px-8 py-4 flex items-center">
             <Link to="/" className="flex-none">
                 <img
                     src={Logo}
