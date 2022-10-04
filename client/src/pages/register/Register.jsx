@@ -25,6 +25,7 @@ const Register = () => {
             setAvatarError(undefined);
             return
         }
+        setAvatarFile(undefined);
         setAvatarError("Accepts only png, jpeg and jpg file types.");
     }, []);
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -77,7 +78,7 @@ const Register = () => {
                     </label>
                     <div
                         {...getRootProps()}
-                        className="p-4 bg-white mt-2 rounded cursor-pointer hover:opacity-60 text-center"
+                        className={`p-4 ${avatarFile ? "" : "bg-white"} mt-2 rounded cursor-pointer hover:opacity-60 text-center`}
                     >
                         <input {...getInputProps()} />
                         {avatarFile ? (
