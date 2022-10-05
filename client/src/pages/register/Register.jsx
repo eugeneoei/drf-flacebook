@@ -14,6 +14,7 @@ import { Button } from "../../components/ui/Button";
 import { AlertInput } from "../../components/ui/AlertInput";
 import { Spinner } from "../../components/ui/Spinner";
 import { AlertSnackbar } from "../../components/ui/AlertSnackbar";
+import { useLogin } from "../login/hooks/useLogin";
 
 const Register = () => {
     const [avatarFile, setAvatarFile] = useState(undefined);
@@ -23,7 +24,7 @@ const Register = () => {
         if (isFileImageType(avatarFile)) {
             setAvatarFile(avatarFile);
             setAvatarError(undefined);
-            return
+            return;
         }
         setAvatarFile(undefined);
         setAvatarError("Accepts only png, jpeg and jpg file types.");
@@ -34,7 +35,8 @@ const Register = () => {
 
     const { registerUser, isRegisterLoading, registrationError } =
         useRegister();
-    const { loggedInUser } = useLoggedInUser();
+    const { loggedInUser, updateUser } = useLoggedInUser();
+    const { login } = useLogin()
 
     const {
         register,
@@ -45,23 +47,17 @@ const Register = () => {
     });
 
     const handleRegister = async data => {
-        // todo: log user in programatically after registration is successful
-        // await registerUser({ ...data, avatar: data.avatar[0] });
-        // navigate("/login", { replace: true });
-        console.log("registering in >>", {
+        await registerUser({
             ...data,
             ...(avatarFile && { avatar: avatarFile })
         });
+        const user = await login(data.email, data.password)
+        updateUser(user);
     };
 
     if (loggedInUser) {
-        return <Navigate replace to="/login" />;
+        return <Navigate replace to="/" />;
     }
-
-    // if (registrationError) {
-    //     console.log('hi')
-    //     console.log(Object.values(registrationError))
-    // }
 
     return (
         <LoginRegisterFormLayout>
@@ -78,7 +74,9 @@ const Register = () => {
                     </label>
                     <div
                         {...getRootProps()}
-                        className={`p-4 ${avatarFile ? "" : "bg-white"} mt-2 rounded cursor-pointer hover:opacity-60 text-center`}
+                        className={`p-4 ${
+                            avatarFile ? "" : "bg-white"
+                        } mt-2 rounded cursor-pointer hover:opacity-60 text-center`}
                     >
                         <input {...getInputProps()} />
                         {avatarFile ? (
@@ -170,7 +168,7 @@ const Register = () => {
                         <AlertInput message={errors.confirmPassword.message} />
                     )}
                 </div>
-                <div className="mt-6">
+                <div className="mt-6 text-center">
                     {isRegisterLoading ? (
                         <Spinner />
                     ) : (
