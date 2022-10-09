@@ -1,6 +1,4 @@
-# Flacebook
-
-Full stack app using Django with Django REST Framework and ReactJS
+# Django REST Framework API
 
 # Getting Started
 
