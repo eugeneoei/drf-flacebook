@@ -1,4 +1,4 @@
-from app.settings import COMMENTS_PAGE_SIZE
+from app.settings import PAGE_SIZE
 from comments.serializers import CommentSerializer
 from django.core.paginator import Paginator
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
@@ -17,13 +17,13 @@ class PostSerializer(ModelSerializer):
 
     def get_paginated_comments(self, obj):
         # ordering in Comment model determines order of results here as well
-        paginator = Paginator(obj.comments.all(), COMMENTS_PAGE_SIZE)
+        paginator = Paginator(obj.comments.all(), PAGE_SIZE)
         comments = paginator.page(1)
         serializer = CommentSerializer(comments, many=True)
         number_of_comments = paginator.count
         has_next_page = paginator.num_pages > 1
         return {
-            "data": serializer.data,
+            "results": serializer.data,
             "count": number_of_comments,
-            "has_next_page": has_next_page
+            "next": f"/api/posts/{obj.id}/comments/?page=2" if has_next_page else None
         }

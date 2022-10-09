@@ -1,6 +1,13 @@
 import { formatDistance } from "date-fns";
+import { Spinner } from "../ui/Spinner";
 
-const PostComments = ({ comments, hasNextPage }) => {
+const PostComments = ({
+    comments,
+    next,
+    getMoreComments,
+    isGettingMoreComments
+}) => {
+    const hasNextPage = Boolean(next);
     return (
         <ul className="grid grid-cols-1 gap-4 mt-4">
             {comments.map(comment => {
@@ -30,8 +37,17 @@ const PostComments = ({ comments, hasNextPage }) => {
                 );
             })}
             {hasNextPage && (
-                <li>
-                    <button>View more comments</button>
+                <li className="text-center">
+                    {isGettingMoreComments ? (
+                        <Spinner />
+                    ) : (
+                        <button
+                            className="hover:underline h-7"
+                            onClick={getMoreComments}
+                        >
+                            View more comments
+                        </button>
+                    )}
                 </li>
             )}
         </ul>

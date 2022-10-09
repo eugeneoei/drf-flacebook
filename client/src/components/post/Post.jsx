@@ -6,16 +6,28 @@ import { PostActions } from "./PostActions";
 import { PostCommentCreate } from "./PostCommentCreate";
 import { PostComments } from "./PostComments";
 
-const Post = ({ post, like, loggedInUser, createComment }) => {
+const Post = ({
+    post,
+    like,
+    loggedInUser,
+    createPostComment,
+    getMorePostComments
+}) => {
     const { id, content, createdAt, comments, user } = post;
     const { firstName, lastName, avatar } = user;
-    const { count, data, hasNextPage } = comments;
+    const { count, results, next } = comments;
 
     const [isShowComments, setIsShowComments] = useState(false);
+    const [isGettingMoreComments, setIsGettingMoreComments] = useState(false);
 
     const handleShowComments = () => {
-        console.log("show comments");
         setIsShowComments(true);
+    };
+
+    const handleGetMoreComments = () => {
+        setIsGettingMoreComments(true);
+        getMorePostComments(id, next);
+        setIsGettingMoreComments(false);
     };
 
     return (
@@ -35,12 +47,17 @@ const Post = ({ post, like, loggedInUser, createComment }) => {
             {isShowComments && loggedInUser && (
                 <PostCommentCreate
                     loggedInUser={loggedInUser}
-                    createComment={createComment}
+                    createPostComment={createPostComment}
                     postId={id}
                 />
             )}
             {isShowComments && (
-                <PostComments comments={data} hasNextPage={hasNextPage} />
+                <PostComments
+                    comments={results}
+                    next={next}
+                    getMoreComments={handleGetMoreComments}
+                    isGettingMoreComments={isGettingMoreComments}
+                />
             )}
         </PostLayout>
     );

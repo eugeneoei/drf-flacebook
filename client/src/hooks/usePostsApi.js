@@ -28,7 +28,7 @@ const usePostsApi = () => {
             setIsGettingMorePosts(true);
             const response = await axiosInstance.get(nextPageUrl);
             const { results, next } = response;
-            setPosts([...posts, ...results]);
+            setPosts(posts => [...posts, ...results]);
             setHasNextPage(Boolean(next));
             setNextPageUrl(next);
         } catch (error) {
@@ -36,6 +36,25 @@ const usePostsApi = () => {
         } finally {
             setIsGettingMorePosts(false);
         }
+    };
+
+    const updatePostComments = (postId, commentsResponse) => {
+        const { results, next } = commentsResponse;
+        const updatedPosts = posts.map(post => {
+            if (post.id === postId) {
+                return {
+                    ...post,
+                    comments: {
+                        ...post.comments,
+                        results: [...post.comments.results, ...results],
+                        next
+                    }
+                };
+            } else {
+                return post;
+            }
+        });
+        setPosts(updatedPosts);
     };
 
     useEffect(() => {
@@ -47,8 +66,8 @@ const usePostsApi = () => {
         isGettingMorePosts,
         posts,
         hasNextPage,
-        getMorePosts
-        // getPosts
+        getMorePosts,
+        updatePostComments
     };
 };
 

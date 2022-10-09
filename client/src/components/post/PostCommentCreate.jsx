@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const PostCommentCreate = ({ postId, loggedInUser, createComment }) => {
+const PostCommentCreate = ({ postId, loggedInUser, createPostComment }) => {
     const { id, avatar, firstName, lastName } = loggedInUser;
     const [comment, setComment] = useState("");
 
@@ -10,7 +10,7 @@ const PostCommentCreate = ({ postId, loggedInUser, createComment }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        createComment(id, postId, comment);
+        createPostComment(id, postId, comment);
     };
 
     return (

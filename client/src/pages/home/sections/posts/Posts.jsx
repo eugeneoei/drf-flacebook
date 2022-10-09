@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useInView } from "react-cool-inview";
 import { useLoggedInUser } from "../../../../contexts/useLoggedInUser";
 import { usePostsApi } from "../../../../hooks/usePostsApi";
+import { usePostCommentsApi } from "../../../../hooks/usePostCommentsApi";
 import { Post } from "../../../../components/post/Post";
 import { PostSkeleton } from "../../../../components/post/PostSkeleton";
 
@@ -12,34 +13,30 @@ const Posts = () => {
         isGettingMorePosts,
         hasNextPage,
         getMorePosts,
+        updatePostComments
     } = usePostsApi();
+    const { getPostComments, createPostComment } = usePostCommentsApi();
 
     const handleLike = () => {
         // ! if user is not logged in, not allowed
         console.log("like post");
     };
 
-    const handleCreateComment = (userId, postId, content) => {
-        console.log("creating comment for");
-        console.log("post id: ", postId);
-        console.log("by user id: ", userId);
-        console.log("with content: ", content);
+    const handleGetMorePostComments = async (postId, nextPageUrl) => {
+        const response = await getPostComments(nextPageUrl);
+        updatePostComments(postId, response);
     };
 
-    useEffect(() => {
-        if (hasNextPage && !isGettingMorePosts) {
-            const options = {
-                threshold: 0.01
-            };
-            const callback = entries => {
-                const skeletonsWrapper = entries[0];
-                if (skeletonsWrapper.isIntersecting) {
-                    getMorePosts();
-                    observer.unobserve(document.querySelector("#loaders"));
-                }
-            };
-            const observer = new IntersectionObserver(callback, options);
-            observer.observe(document.querySelector("#loaders"));
+    const handleCreatePostComment = (userId, postId, content) => {
+        createPostComment(userId, postId, content);
+    };
+
+    const { observe } = useInView({
+        threshold: 0.01,
+        onEnter: () => {
+            if (hasNextPage && !isGettingMorePosts) {
+                getMorePosts();
+            }
         }
     });
 
@@ -72,12 +69,14 @@ const Posts = () => {
                     post={post}
                     like={handleLike}
                     loggedInUser={loggedInUser}
-                    createComment={handleCreateComment}
+                    createPostComment={handleCreatePostComment}
+                    getMorePostComments={handleGetMorePostComments}
                 />
             ))}
             {hasNextPage && (
-                <div id="loaders">
+                <div ref={observe}>
                     <PostSkeleton />
+                    <PostSkeleton marginTop />
                     <PostSkeleton marginTop />
                 </div>
             )}

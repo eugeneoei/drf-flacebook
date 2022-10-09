@@ -1,8 +1,10 @@
+from app.settings import PAGE_SIZE
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.utils.urls import remove_query_param, replace_query_param
 
+print(PAGE_SIZE)
 class MycustomPagination(PageNumberPagination):
-    page_size = 2
+    page_size = PAGE_SIZE
     def get_next_link(self):
         if not self.page.has_next():
             return None
