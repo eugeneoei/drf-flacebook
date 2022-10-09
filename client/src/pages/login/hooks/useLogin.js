@@ -9,7 +9,7 @@ const useLogin = () => {
         setIsLoginLoading(true);
         try {
             const response = await axiosInstance.post(
-                `${process.env.REACT_APP_API}/auth/login/`,
+                `/api/auth/login/`,
                 {
                     email,
                     password

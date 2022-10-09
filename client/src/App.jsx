@@ -9,12 +9,14 @@ const App = () => {
         location.pathname
     );
 
+    const backgroundColor = isLoginOrRegisterPage ? "" : "bg-slate-100";
+
     return (
-        <div className={`${isLoginOrRegisterPage ? "" : "bg-slate-100"}`}>
+        <div>
             <LoggedInUserProvider>
                 <AppInitialisation>
                     <Navbar />
-                    <div className="py-8">
+                    <div className={`${backgroundColor} py-8`}>
                         <Outlet />
                     </div>
                 </AppInitialisation>

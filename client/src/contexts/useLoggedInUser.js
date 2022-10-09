@@ -28,7 +28,7 @@ const LoggedInUserProvider = ({ children }) => {
         const initialiseUser = async () => {
             try {
                 const response = await axiosInstance.get(
-                    `${process.env.REACT_APP_API}/auth/`
+                    `/api/auth/`
                 );
                 updateUser(response);
             } catch (error) {

@@ -13,7 +13,7 @@ const useRegister = () => {
                 formData.set(key, value)
             })
             await axiosInstance.post(
-                `${process.env.REACT_APP_API}/users/`,
+                `/api/users/`,
                 formData
             );
         } catch (error) {
