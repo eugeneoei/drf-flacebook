@@ -9,20 +9,20 @@ from .serializers import PostSerializer
 
 class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
-    """
-    # OrderingFilter
-    by default, the query parameter is named "ordering"
-    it's recommended that you explicitly specify which fields the API should allow in the ordering filter.
+    # """
+    # # OrderingFilter
+    # by default, the query parameter is named "ordering"
+    # it's recommended that you explicitly specify which fields the API should allow in the ordering filter.
 
-    # SearchFilter
-    The search_fields attribute should be a list of names of text type fields on the model
-    such as CharField or TextField.
-    """
-    filter_backends = [OrderingFilter, SearchFilter]
-    ordering_fields = ["created_at"]
-    search_fields = ["content", "user__first_name"]
+    # # SearchFilter
+    # The search_fields attribute should be a list of names of text type fields on the model
+    # such as CharField or TextField.
+    # """
+    # filter_backends = [OrderingFilter, SearchFilter]
+    # ordering_fields = ["created_at"]
+    # search_fields = ["content", "user__first_name"]
 
-    # pagination_class = MycustomPagination
+    # ordering = "created_at"
 
     def get_queryset(self):
         queryset = Post.objects.all()

@@ -1,15 +1,17 @@
 import { axiosInstance } from "../utils/axiosInstance";
 
 const usePostCommentsApi = () => {
-    // const createPostComment = async data => {
-    //     console.log("creating post comments")
-    // }
-
-    const createPostComment = (userId, postId, content) => {
-        console.log("creating comment for");
-        console.log("post id: ", postId);
-        console.log("by user id: ", userId);
-        console.log("with content: ", content);
+    const createPostComment = async (postId, content) => {
+        try {
+            const apiEndpoint = `/api/posts/${postId}/comments/`;
+            const response = await axiosInstance.post(apiEndpoint, {
+                content
+            });
+            return response;
+        } catch (error) {
+            console.log("create post comment error");
+            console.log(error);
+        }
     };
 
     const getPostComments = async url => {

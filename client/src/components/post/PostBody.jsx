@@ -1,3 +1,5 @@
+import { formatCount } from "../../utils/formatter";
+
 const PostBody = ({ content, commentsCount, showComments }) => {
     return (
         <>
@@ -6,7 +8,7 @@ const PostBody = ({ content, commentsCount, showComments }) => {
             </div>
             <div className="text-right pb-4 border-b-2 border-solid">
                 <button className="hover:underline" onClick={showComments}>
-                    {`${commentsCount} Comment${commentsCount > 1 ? "s" : ""}`}
+                    {`${formatCount(commentsCount)} Comment${commentsCount > 1 ? "s" : ""}`}
                 </button>
             </div>
         </>

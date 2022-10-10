@@ -47,3 +47,7 @@ TODO
 - Implementing custom pagination
     - [Using custom pagination](https://stackoverflow.com/questions/72105628/get-next-page-number-instead-of-next-page-link-django-rest-framework)
     - [Return relative url instead of absolute url](https://stackoverflow.com/questions/26895616/django-rest-pagination-relative-url-instead-of-absolute-url-in-listapiview)
+
+- [How to Implement Cursor Pagination Like a Pro](https://medium.com/swlh/how-to-implement-cursor-pagination-like-a-pro-513140b65f32)
+
+- [Paginating nested objects](https://medium.com/dreidev/nested-pagination-md-6414a85b5501)

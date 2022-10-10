@@ -1,7 +1,6 @@
 import { useInView } from "react-cool-inview";
 import { useLoggedInUser } from "../../../../contexts/useLoggedInUser";
 import { usePostsApi } from "../../../../hooks/usePostsApi";
-import { usePostCommentsApi } from "../../../../hooks/usePostCommentsApi";
 import { Post } from "../../../../components/post/Post";
 import { PostSkeleton } from "../../../../components/post/PostSkeleton";
 
@@ -13,22 +12,13 @@ const Posts = () => {
         isGettingMorePosts,
         hasNextPage,
         getMorePosts,
-        updatePostComments
+        updatePostComments,
+        addPostComment
     } = usePostsApi();
-    const { getPostComments, createPostComment } = usePostCommentsApi();
 
     const handleLike = () => {
         // ! if user is not logged in, not allowed
         console.log("like post");
-    };
-
-    const handleGetMorePostComments = async (postId, nextPageUrl) => {
-        const response = await getPostComments(nextPageUrl);
-        updatePostComments(postId, response);
-    };
-
-    const handleCreatePostComment = (userId, postId, content) => {
-        createPostComment(userId, postId, content);
     };
 
     const { observe } = useInView({
@@ -69,8 +59,8 @@ const Posts = () => {
                     post={post}
                     like={handleLike}
                     loggedInUser={loggedInUser}
-                    createPostComment={handleCreatePostComment}
-                    getMorePostComments={handleGetMorePostComments}
+                    updatePostComments={updatePostComments}
+                    addPostComment={addPostComment}
                 />
             ))}
             {hasNextPage && (

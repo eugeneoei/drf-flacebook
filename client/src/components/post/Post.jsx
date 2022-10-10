@@ -1,33 +1,45 @@
 import { useState } from "react";
+import { usePostCommentsApi } from "../../hooks/usePostCommentsApi";
 import { PostLayout } from "./PostLayout";
 import { PostHeader } from "./PostHeader";
 import { PostBody } from "./PostBody";
 import { PostActions } from "./PostActions";
 import { PostCommentCreate } from "./PostCommentCreate";
 import { PostComments } from "./PostComments";
+import { getCursor } from "../../utils/urls";
 
 const Post = ({
     post,
     like,
     loggedInUser,
-    createPostComment,
-    getMorePostComments
+    updatePostComments,
+    addPostComment
 }) => {
     const { id, content, createdAt, comments, user } = post;
     const { firstName, lastName, avatar } = user;
     const { count, results, next } = comments;
 
-    const [isShowComments, setIsShowComments] = useState(false);
+    const [showComments, setShowComments] = useState(false);
     const [isGettingMoreComments, setIsGettingMoreComments] = useState(false);
+    const { getPostComments, createPostComment } = usePostCommentsApi();
 
     const handleShowComments = () => {
-        setIsShowComments(true);
+        setShowComments(true);
     };
 
-    const handleGetMoreComments = () => {
+    const handleGetMoreComments = async () => {
+        const cursor = getCursor(next);
         setIsGettingMoreComments(true);
-        getMorePostComments(id, next);
+        const response = await getPostComments(
+            `/api/posts/${id}/comments/?cursor=${cursor}`
+        );
+        updatePostComments(id, response);
         setIsGettingMoreComments(false);
+    };
+
+    const handleCreatePostComment = async (postId, content) => {
+        const response = await createPostComment(postId, content);
+        addPostComment(postId, response);
     };
 
     return (
@@ -44,14 +56,14 @@ const Post = ({
                 showComments={handleShowComments}
             />
             <PostActions like={like} showComments={handleShowComments} />
-            {isShowComments && loggedInUser && (
+            {showComments && loggedInUser && (
                 <PostCommentCreate
                     loggedInUser={loggedInUser}
-                    createPostComment={createPostComment}
+                    createPostComment={handleCreatePostComment}
                     postId={id}
                 />
             )}
-            {isShowComments && (
+            {showComments && (
                 <PostComments
                     comments={results}
                     next={next}

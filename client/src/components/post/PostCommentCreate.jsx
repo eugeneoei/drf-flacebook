@@ -1,16 +1,17 @@
 import { useState } from "react";
 
 const PostCommentCreate = ({ postId, loggedInUser, createPostComment }) => {
-    const { id, avatar, firstName, lastName } = loggedInUser;
+    const { avatar, firstName, lastName } = loggedInUser;
     const [comment, setComment] = useState("");
 
     const handleCommentChange = e => {
         setComment(e.target.value);
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
-        createPostComment(id, postId, comment);
+        createPostComment(postId, comment);
+        setComment("");
     };
 
     return (

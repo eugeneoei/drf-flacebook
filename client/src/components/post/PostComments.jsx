@@ -50,6 +50,9 @@ const PostComments = ({
                     )}
                 </li>
             )}
+            {comments.length === 0 && (
+                <li className="text-center">Be the first to comment!</li>
+            )}
         </ul>
     );
 };

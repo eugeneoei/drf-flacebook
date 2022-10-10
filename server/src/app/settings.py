@@ -148,10 +148,9 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    "DEFAULT_PAGINATION_CLASS": "app.pagination.MycustomPagination",
+    "DEFAULT_PAGINATION_CLASS": "app.pagination.CustomCursorPagination",
+    "PAGE_SIZE": 2
 }
-
-PAGE_SIZE = 2
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=14),
