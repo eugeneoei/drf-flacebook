@@ -172,7 +172,7 @@ const Register = () => {
                     {isRegisterLoading ? (
                         <Spinner />
                     ) : (
-                        <Button text="Register" />
+                        <Button type="submit" text="Register" />
                     )}
                 </div>
                 <div className="mt-6 text-center">

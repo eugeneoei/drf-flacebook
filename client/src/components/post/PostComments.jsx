@@ -20,7 +20,7 @@ const PostComments = ({
                             className="rounded-full flex-none mr-2 w-9 h-9"
                             alt={`${firstName}-${lastName}`}
                         />
-                        <div className="flex-1 rounded-xl bg-slate-100 p-2">
+                        <div className="flex-1 rounded-xl bg-slate-100 px-3 py-2">
                             <span className="block font-bold">{`${firstName} ${lastName}`}</span>
                             <span className="block my-1">{content}</span>
                             <span className="block text-xs">

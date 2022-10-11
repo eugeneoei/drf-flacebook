@@ -74,7 +74,7 @@ const Login = () => {
                     )}
                 </div>
                 <div className="mt-6 text-center">
-                    {isLoginLoading ? <Spinner /> : <Button text="Login" />}
+                    {isLoginLoading ? <Spinner /> : <Button type="submit" text="Login" />}
                 </div>
                 <div className="mt-6 text-center">
                     Already have an account? Click{" "}

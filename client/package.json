@@ -16,6 +16,7 @@
         "react-dropzone": "^14.2.2",
         "react-hook-form": "^7.36.1",
         "react-router-dom": "^6.4.1",
+        "react-use": "^17.4.0",
         "web-vitals": "^2.1.4",
         "yup": "^0.32.11"
     },
@@ -33,7 +34,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "watch:tailwind": "npx tailwindcss -i ./src/index.css -o ./dist/output.css --watch"
+        "watch:tailwind": "npx tailwindcss -i ./src/index.css -o ./dist/output.css --watch",
+        "check:dependencies": "npm audit --omit=dev"
     },
     "eslintConfig": {
         "extends": [

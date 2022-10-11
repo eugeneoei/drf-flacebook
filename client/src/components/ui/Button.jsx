@@ -1,7 +1,8 @@
-const Button = ({ text }) => {
+const Button = ({ type, text, click }) => {
     return (
         <button
-            type="submit"
+            type={type}
+            onClick={click}
             className="w-full bg-sky-700 rounded text-white p-4"
         >
             {text}

@@ -23,9 +23,8 @@ const PostCommentCreate = ({ postId, loggedInUser, createPostComment }) => {
             />
             <form className="flex-1" onSubmit={handleSubmit}>
                 <input
-                    type="text"
                     placeholder="Write a comment..."
-                    className="rounded-xl bg-slate-100 px-4 py-1 w-full h-9 focus:outline-none"
+                    className="rounded-xl bg-slate-100 px-3 py-2 w-full focus:outline-none resize-y"
                     value={comment}
                     onChange={handleCommentChange}
                 />
