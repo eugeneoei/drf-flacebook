@@ -4,7 +4,7 @@ import { useLoggedInUser } from "../../contexts/useLoggedInUser";
 import { PostLayout } from "./PostLayout";
 import { PostHeader } from "./PostHeader";
 import { PostBody } from "./PostBody";
-import { PostActions } from "./PostResponses";
+import { PostResponses } from "./PostResponses";
 import { PostCommentCreate } from "./PostCommentCreate";
 import { PostComments } from "./PostComments";
 import { PostEdit } from "./PostEdit";
@@ -18,7 +18,7 @@ const Post = ({ like }) => {
         <PostLayout>
             <PostHeader />
             <PostBody />
-            <PostActions like={like} />
+            <PostResponses like={like} />
             {showComments && isLoggedIn && <PostCommentCreate />}
             {showComments && <PostComments />}
             {showEditPost && <PostEdit />}

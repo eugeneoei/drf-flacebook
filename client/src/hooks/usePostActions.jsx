@@ -3,7 +3,6 @@ import { useClickAway } from "react-use";
 import { lockBodyElement, unlockBodyElement } from "../utils/dom";
 
 const usePostActions = postContent => {
-
     const [showEditPost, setShowEditPost] = useState(false);
     const [updatedContent, setUpdatedContent] = useState(postContent);
 
@@ -14,7 +13,7 @@ const usePostActions = postContent => {
     const [showActionsPopper, setShowActionsPopper] = useState(false);
 
     const handleToggleShowActions = () => {
-        console.log("toggling")
+        console.log("toggling");
         setShowActionsPopper(!showActionsPopper);
     };
 
@@ -58,8 +57,7 @@ const usePostActions = postContent => {
         showActionsPopper,
         handleToggleShowActions,
         postActionsRef
-    }
+    };
+};
 
-}
-
-export { usePostActions }
+export { usePostActions };

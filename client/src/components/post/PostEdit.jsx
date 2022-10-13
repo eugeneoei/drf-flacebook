@@ -5,8 +5,12 @@ import { Modal } from "../ui/Modal";
 import { usePost } from "../../contexts/usePost";
 
 const PostEdit = () => {
-    const { updatedContent, handleCloseEdit, handleContentChange, handleUpdate } =
-        usePost();
+    const {
+        updatedContent,
+        handleCloseEdit,
+        handleContentChange,
+        handleUpdate
+    } = usePost();
     // const [content, setContent] = useState(postContent);
 
     // const handleContentChange = e => {

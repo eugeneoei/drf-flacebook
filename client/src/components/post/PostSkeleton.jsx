@@ -1,6 +1,10 @@
 const PostSkeleton = ({ marginTop }) => {
     return (
-        <div className={`rounded-lg bg-white animate-pulse ${marginTop && "mt-4"}`}>
+        <div
+            className={`rounded-lg bg-white animate-pulse ${
+                marginTop && "mt-4"
+            }`}
+        >
             <div className="p-4">
                 <div className="rounded-full inline-block mr-2 w-16 h-16 bg-slate-100" />
                 <div className="inline-block h-16">

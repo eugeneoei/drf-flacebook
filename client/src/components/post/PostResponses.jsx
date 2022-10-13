@@ -2,8 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faComment } from "@fortawesome/free-regular-svg-icons";
 import { usePost } from "../../contexts/usePost";
 
-const PostActions = ({ like }) => {
-    const { handleShowComments } = usePost()
+const PostResponses = ({ like }) => {
+    const { handleShowComments } = usePost();
     return (
         <div className="grid grid-cols-2 p-1 gap-2 border-b-2 border-solid">
             <button
@@ -30,4 +30,4 @@ const PostActions = ({ like }) => {
     );
 };
 
-export { PostActions };
+export { PostResponses };

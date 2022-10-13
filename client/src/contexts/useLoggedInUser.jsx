@@ -27,9 +27,7 @@ const LoggedInUserProvider = ({ children }) => {
     useEffect(() => {
         const initialiseUser = async () => {
             try {
-                const response = await axiosInstance.get(
-                    `/api/auth/`
-                );
+                const response = await axiosInstance.get(`/api/auth/`);
                 updateUser(response);
             } catch (error) {
                 const { code } = error;

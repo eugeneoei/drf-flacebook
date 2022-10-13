@@ -8,10 +8,10 @@ const PostProvider = ({
     post,
     updatePostComments,
     addPostComment,
-    children,
+    children
 }) => {
     const comments = usePostComments(post, updatePostComments, addPostComment);
-    const postActions = usePostActions(post.content)
+    const postActions = usePostActions(post.content);
 
     const value = {
         ...comments,

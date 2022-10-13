@@ -4,7 +4,6 @@ import { usePosts } from "../../../../hooks/usePosts";
 import { Post } from "../../../../components/post/Post";
 import { PostSkeleton } from "../../../../components/post/PostSkeleton";
 
-
 const Posts = () => {
     const {
         posts,

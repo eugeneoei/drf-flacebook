@@ -3,13 +3,12 @@ import { axiosInstance } from "../utils/axiosInstance";
 import { getCursor } from "../utils/urls";
 
 const usePostComments = (post, updatePostComments, addPostComment) => {
+    const { id, content, createdAt, comments, user } = post;
+    const { next, count: numberOfComments, results } = comments;
+    const cursor = getCursor(next);
+    const hasNextPage = Boolean(next);
 
-    const { id, content, createdAt, comments, user } = post
-    const { next, count: numberOfComments, results } = comments
-    const cursor = getCursor(next)
-    const hasNextPage = Boolean(next)
-
-    const [showComments, setShowComments] = useState(false)
+    const [showComments, setShowComments] = useState(false);
     const [isGettingMoreComments, setIsGettingMoreComments] = useState(false);
     const [comment, setComment] = useState("");
 
@@ -18,7 +17,7 @@ const usePostComments = (post, updatePostComments, addPostComment) => {
     };
 
     const handleCommentChange = e => {
-        setComment(e.target.value)
+        setComment(e.target.value);
     };
 
     const handleGetComments = async () => {
@@ -41,8 +40,8 @@ const usePostComments = (post, updatePostComments, addPostComment) => {
             const response = await axiosInstance.post(apiEndpoint, {
                 content: comment
             });
-            addPostComment(id, response)
-            setComment("")
+            addPostComment(id, response);
+            setComment("");
         } catch (error) {
             console.log("create post comment error");
             console.log(error);
@@ -63,7 +62,7 @@ const usePostComments = (post, updatePostComments, addPostComment) => {
         handleGetComments,
         comment,
         handleCommentChange,
-        handleCreateComment,
+        handleCreateComment
     };
 };
 

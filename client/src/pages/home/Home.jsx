@@ -1,4 +1,3 @@
-// import { PostsProvider } from "../../contexts/usePosts";
 import { Posts } from "./sections/posts/Posts";
 const Home = () => {
     return (
