@@ -51,6 +51,16 @@ const usePosts = () => {
         }
     };
 
+    const updatePost = (postId, updatedPost) => {
+        const updatedPosts = posts.map(post => post.id === postId ? updatedPost : post)
+        setPosts(updatedPosts)
+    }
+
+    const deletePost = postId => {
+        const updatedPosts = posts.filter(post => post.id !== postId)
+        setPosts(updatedPosts)
+    }
+
     const updatePostComments = (postId, moreCommentsResponse) => {
         const { results, next } = moreCommentsResponse;
         const updatedPosts = posts.map(post => {
@@ -113,7 +123,9 @@ const usePosts = () => {
         hasNextPage,
         getMorePosts,
         updatePostComments,
-        addPostComment
+        addPostComment,
+        updatePost,
+        deletePost
     };
 };
 

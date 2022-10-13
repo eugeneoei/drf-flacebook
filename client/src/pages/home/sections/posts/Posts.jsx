@@ -12,7 +12,9 @@ const Posts = () => {
         hasNextPage,
         getMorePosts,
         updatePostComments,
-        addPostComment
+        addPostComment,
+        updatePost,
+        deletePost
     } = usePosts();
 
     const handleLike = () => {
@@ -55,19 +57,13 @@ const Posts = () => {
             {posts.map(post => (
                 <PostProvider
                     key={post.id}
-                    // id={post.id}
-                    // cursor={getCursor(post.comments.next)}
                     post={post}
                     updatePostComments={updatePostComments}
                     addPostComment={addPostComment}
+                    updatePost={updatePost}
+                    deletePost={deletePost}
                 >
-                    <Post
-                        // post={post}
-                        like={handleLike}
-                        // loggedInUser={loggedInUser}
-                        // updatePostComments={updatePostComments}
-                        // addPostComment={addPostComment}
-                    />
+                    <Post like={handleLike} />
                 </PostProvider>
             ))}
             {hasNextPage && (

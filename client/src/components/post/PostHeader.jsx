@@ -13,7 +13,7 @@ const PostHeader = () => {
         createdAt,
         user,
         handleEdit,
-        handleDelete,
+        handleShowDeleteConfirmation,
         showActionsPopper,
         handleToggleShowActions,
         postActionsRef
@@ -64,7 +64,7 @@ const PostHeader = () => {
                             </button>
                             <button
                                 className="block mt-1 hover:bg-slate-100 w-full text-left px-4 py-2"
-                                onClick={handleDelete}
+                                onClick={handleShowDeleteConfirmation}
                             >
                                 <FontAwesomeIcon
                                     icon={faTrashCan}

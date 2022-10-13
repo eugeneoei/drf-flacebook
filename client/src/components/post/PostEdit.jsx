@@ -1,32 +1,22 @@
-// import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Modal } from "../ui/Modal";
 import { usePost } from "../../contexts/usePost";
+import { Spinner } from "../ui/Spinner";
 
 const PostEdit = () => {
     const {
         updatedContent,
         handleCloseEdit,
         handleContentChange,
+        isUpdatingPost,
         handleUpdate
     } = usePost();
-    // const [content, setContent] = useState(postContent);
-
-    // const handleContentChange = e => {
-    //     setContent(e.target.value);
-    // };
-
-    // const handleSubmit = e => {
-    //     e.preventDefault();
-    //     // update(content);
-    //     handleUpdate();
-    // };
 
     return (
         <Modal>
             <div className="relative">
-                <span>Edit Post</span>
+                <h1 className="text-lg font-bold">Edit Post</h1>
                 <button
                     className="hover:bg-slate-100 p-2 rounded-full w-10 h-10 absolute right-0 -top-2"
                     onClick={handleCloseEdit}
@@ -37,20 +27,27 @@ const PostEdit = () => {
                     />
                 </button>
             </div>
-            <form onSubmit={handleUpdate}>
+            <form onSubmit={handleUpdate} className="text-center">
                 <textarea
-                    className="rounded-xl bg-slate-100 w-full p-4 focus:outline-none resize-y my-4"
+                    className="rounded-xl bg-slate-100 w-full p-4 focus:outline-none resize-y my-4 disabled:hover:cursor-progress disabled:opacity-60"
                     rows={20}
                     value={updatedContent}
                     onChange={handleContentChange}
+                    disabled={isUpdatingPost}
                 />
-                <button
-                    type="submit"
-                    onClick={handleUpdate}
-                    className="w-full bg-sky-700 border-2 border-sky-700 rounded text-white p-2"
-                >
-                    Update
-                </button>
+                {
+                    isUpdatingPost ? (
+                        <Spinner />
+                    ) : (
+                        <button
+                            type="submit"
+                            onClick={handleUpdate}
+                            className="w-full bg-sky-700 border-2 border-sky-700 rounded text-white p-2"
+                        >
+                            Update
+                        </button>
+                    )
+                }
             </form>
         </Modal>
     );

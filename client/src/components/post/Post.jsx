@@ -8,11 +8,16 @@ import { PostResponses } from "./PostResponses";
 import { PostCommentCreate } from "./PostCommentCreate";
 import { PostComments } from "./PostComments";
 import { PostEdit } from "./PostEdit";
+import { PostDeleteConfirmation } from "./PostDeleteConfirmation";
 
 const Post = ({ like }) => {
-    const { showComments, showEditPost } = usePost();
+    const { showComments, showEditPost, showDeleteConfirmation } = usePost();
     const { loggedInUser } = useLoggedInUser();
     const isLoggedIn = Boolean(loggedInUser);
+
+    const showPostEditModal = showEditPost && !showDeleteConfirmation;
+    const showPostDeleteConfirmationModal =
+        !showEditPost && showDeleteConfirmation;
 
     return (
         <PostLayout>
@@ -21,7 +26,8 @@ const Post = ({ like }) => {
             <PostResponses like={like} />
             {showComments && isLoggedIn && <PostCommentCreate />}
             {showComments && <PostComments />}
-            {showEditPost && <PostEdit />}
+            {showPostEditModal && <PostEdit />}
+            {showPostDeleteConfirmationModal && <PostDeleteConfirmation />}
         </PostLayout>
     );
 };

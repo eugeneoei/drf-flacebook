@@ -8,10 +8,17 @@ const PostProvider = ({
     post,
     updatePostComments,
     addPostComment,
+    updatePost,
+    deletePost,
     children
 }) => {
     const comments = usePostComments(post, updatePostComments, addPostComment);
-    const postActions = usePostActions(post.content);
+    const postActions = usePostActions(
+        post.id,
+        post.content,
+        updatePost,
+        deletePost
+    );
 
     const value = {
         ...comments,

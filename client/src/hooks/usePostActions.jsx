@@ -1,10 +1,14 @@
 import { useState, useRef } from "react";
 import { useClickAway } from "react-use";
+import { axiosInstance } from "../utils/axiosInstance";
 import { lockBodyElement, unlockBodyElement } from "../utils/dom";
 
-const usePostActions = postContent => {
-    const [showEditPost, setShowEditPost] = useState(false);
+const usePostActions = (postId, postContent, updatePost, deletePost) => {
     const [updatedContent, setUpdatedContent] = useState(postContent);
+    const [showEditPost, setShowEditPost] = useState(false);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const [isUpdatingPost, setIsUpdatingPost] = useState(false);
+    const [isDeletingPost, setIsDeletingPost] = useState(false);
 
     const postActionsRef = useRef(null);
     useClickAway(postActionsRef, () => {
@@ -13,20 +17,18 @@ const usePostActions = postContent => {
     const [showActionsPopper, setShowActionsPopper] = useState(false);
 
     const handleToggleShowActions = () => {
-        console.log("toggling");
         setShowActionsPopper(!showActionsPopper);
     };
 
     const handleEdit = () => {
-        console.log("open edit post");
         setShowEditPost(true);
         setShowActionsPopper(false);
         lockBodyElement();
     };
 
     const handleCloseEdit = () => {
-        console.log("close edit post");
         setShowEditPost(false);
+        setUpdatedContent(postContent);
         unlockBodyElement();
     };
 
@@ -34,15 +36,48 @@ const usePostActions = postContent => {
         setUpdatedContent(e.target.value);
     };
 
-    const handleUpdate = e => {
-        e.preventDefault();
-        console.log("update post");
-        console.log("with following content:");
-        console.log(updatedContent);
+    const handleUpdate = async e => {
+        try {
+            e.preventDefault();
+            setIsUpdatingPost(true);
+            const response = await axiosInstance.patch(
+                `/api/posts/${postId}/`,
+                {
+                    content: updatedContent
+                }
+            );
+            setIsUpdatingPost(false);
+            setShowEditPost(false);
+            unlockBodyElement();
+            updatePost(postId, response);
+        } catch (error) {
+            console.log("Error updating post");
+            console.log(error);
+        }
     };
 
-    const handleDelete = () => {
-        console.log("delete post");
+    const handleShowDeleteConfirmation = () => {
+        setShowDeleteConfirmation(true);
+        setShowActionsPopper(false);
+        lockBodyElement();
+    };
+
+    const handleCloseDeleteConfirmation = () => {
+        setShowDeleteConfirmation(false);
+        unlockBodyElement();
+    };
+
+    const handleDelete = async () => {
+        try {
+            setIsDeletingPost(true);
+            await axiosInstance.delete(`/api/posts/${postId}/`);
+            setIsDeletingPost(false);
+            unlockBodyElement();
+            deletePost(postId);
+        } catch (error) {
+            console.log("Error deleting post");
+            console.log(error);
+        }
     };
 
     return {
@@ -51,12 +86,18 @@ const usePostActions = postContent => {
         handleEdit,
         handleCloseEdit,
         handleContentChange,
+        isUpdatingPost,
         handleUpdate,
+        isDeletingPost,
         handleDelete,
 
         showActionsPopper,
         handleToggleShowActions,
-        postActionsRef
+        postActionsRef,
+
+        showDeleteConfirmation,
+        handleShowDeleteConfirmation,
+        handleCloseDeleteConfirmation
     };
 };
 
