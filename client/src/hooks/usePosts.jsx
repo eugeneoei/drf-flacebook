@@ -13,8 +13,6 @@ const usePosts = () => {
         const hasMore = Boolean(url);
         setHasNextPage(hasMore);
         if (hasMore) {
-            // const cursor = url.split("?cursor=")[1];
-
             setNextPageCursor(getCursor(url));
         }
     };
@@ -23,7 +21,6 @@ const usePosts = () => {
         try {
             const response = await axiosInstance.get(`/api/posts/`);
             const { results, next } = response;
-            // console.log(results)
             setPosts(results);
             updateNextPageState(next);
         } catch (error) {
@@ -41,7 +38,6 @@ const usePosts = () => {
                 `/api/posts/?cursor=${nextPageCursor}`
             );
             const { results, next } = response;
-            // console.log(next)
             setPosts(posts => [...posts, ...results]);
             updateNextPageState(next);
         } catch (error) {
@@ -57,18 +53,18 @@ const usePosts = () => {
                 return {
                     ...post,
                     content: updatedPost.content
-                }
+                };
             } else {
-                return post
+                return post;
             }
-        })
-        setPosts(updatedPosts)
-    }
+        });
+        setPosts(updatedPosts);
+    };
 
     const deletePost = postId => {
-        const updatedPosts = posts.filter(post => post.id !== postId)
-        setPosts(updatedPosts)
-    }
+        const updatedPosts = posts.filter(post => post.id !== postId);
+        setPosts(updatedPosts);
+    };
 
     const updatePostComments = (postId, moreCommentsResponse) => {
         const { results, next } = moreCommentsResponse;
