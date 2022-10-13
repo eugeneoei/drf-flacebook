@@ -7,30 +7,22 @@ import {
     faPenToSquare,
     faTrashCan
 } from "@fortawesome/free-solid-svg-icons";
+import { usePost } from "../../contexts/usePost";
+import { useLoggedInUser } from "../../contexts/useLoggedInUser";
 
-const PostHeader = ({
-    avatar,
-    firstName,
-    lastName,
-    createdAt,
-    showPostActions,
-    editPost,
-    deletePost
-}) => {
-    const postActionsRef = useRef(null);
-    useClickAway(postActionsRef, () => {
-        setShowActionsPopper(false);
-    });
-    const [showActionsPopper, setShowActionsPopper] = useState(false);
-
-    const handleToggleShowActions = () => {
-        setShowActionsPopper(!showActionsPopper);
-    };
-
-    const handleEdit = () => {
-        setShowActionsPopper(false);
-        editPost();
-    };
+const PostHeader = () => {
+    const {
+        createdAt,
+        user,
+        handleEdit,
+        handleDelete,
+        showActionsPopper,
+        handleToggleShowActions,
+        postActionsRef
+    } = usePost();
+    const { loggedInUser } = useLoggedInUser();
+    const { firstName, lastName, avatar } = user;
+    const showPostActions = loggedInUser?.id === user.id;
 
     return (
         <div className="flex">
@@ -72,7 +64,10 @@ const PostHeader = ({
                                 />
                                 Edit
                             </button>
-                            <button className="block mt-1 hover:bg-slate-100 w-full text-left px-4 py-2" onClick={deletePost}>
+                            <button
+                                className="block mt-1 hover:bg-slate-100 w-full text-left px-4 py-2"
+                                onClick={handleDelete}
+                            >
                                 <FontAwesomeIcon
                                     icon={faTrashCan}
                                     className="h-4 text-slate-500 mr-1"

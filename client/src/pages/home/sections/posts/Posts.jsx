@@ -1,11 +1,11 @@
 import { useInView } from "react-cool-inview";
-import { useLoggedInUser } from "../../../../contexts/useLoggedInUser";
-import { usePostsApi } from "../../../../hooks/usePostsApi";
+import { PostProvider } from "../../../../contexts/usePost";
+import { usePosts } from "../../../../hooks/usePosts";
 import { Post } from "../../../../components/post/Post";
 import { PostSkeleton } from "../../../../components/post/PostSkeleton";
 
+
 const Posts = () => {
-    const { loggedInUser } = useLoggedInUser();
     const {
         posts,
         isGettingPosts,
@@ -14,7 +14,7 @@ const Posts = () => {
         getMorePosts,
         updatePostComments,
         addPostComment
-    } = usePostsApi();
+    } = usePosts();
 
     const handleLike = () => {
         // ! if user is not logged in, not allowed
@@ -54,14 +54,22 @@ const Posts = () => {
     return (
         <div className="grid grid-cols-1 gap-4" id="posts">
             {posts.map(post => (
-                <Post
+                <PostProvider
                     key={post.id}
+                    // id={post.id}
+                    // cursor={getCursor(post.comments.next)}
                     post={post}
-                    like={handleLike}
-                    loggedInUser={loggedInUser}
                     updatePostComments={updatePostComments}
                     addPostComment={addPostComment}
-                />
+                >
+                    <Post
+                        // post={post}
+                        like={handleLike}
+                        // loggedInUser={loggedInUser}
+                        // updatePostComments={updatePostComments}
+                        // addPostComment={addPostComment}
+                    />
+                </PostProvider>
             ))}
             {hasNextPage && (
                 <div ref={observe}>

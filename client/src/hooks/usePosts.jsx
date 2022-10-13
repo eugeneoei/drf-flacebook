@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { axiosInstance } from "../utils/axiosInstance";
+import { getCursor } from "../utils/urls";
 
-const usePostsApi = () => {
+const usePosts = () => {
     const [isGettingPosts, setIsGettingPosts] = useState(true);
     const [posts, setPosts] = useState(undefined);
     const [nextPageCursor, setNextPageCursor] = useState(undefined);
@@ -12,8 +13,9 @@ const usePostsApi = () => {
         const hasMore = Boolean(url);
         setHasNextPage(hasMore);
         if (hasMore) {
-            const cursor = url.split("?cursor=")[1];
-            setNextPageCursor(cursor);
+            // const cursor = url.split("?cursor=")[1];
+
+            setNextPageCursor(getCursor(url));
         }
     };
 
@@ -21,6 +23,7 @@ const usePostsApi = () => {
         try {
             const response = await axiosInstance.get(`/api/posts/`);
             const { results, next } = response;
+            // console.log(results)
             setPosts(results);
             updateNextPageState(next);
         } catch (error) {
@@ -38,6 +41,7 @@ const usePostsApi = () => {
                 `/api/posts/?cursor=${nextPageCursor}`
             );
             const { results, next } = response;
+            // console.log(next)
             setPosts(posts => [...posts, ...results]);
             updateNextPageState(next);
         } catch (error) {
@@ -113,4 +117,4 @@ const usePostsApi = () => {
     };
 };
 
-export { usePostsApi };
+export { usePosts };
