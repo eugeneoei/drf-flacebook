@@ -52,7 +52,16 @@ const usePosts = () => {
     };
 
     const updatePost = (postId, updatedPost) => {
-        const updatedPosts = posts.map(post => post.id === postId ? updatedPost : post)
+        const updatedPosts = posts.map(post => {
+            if (post.id === postId) {
+                return {
+                    ...post,
+                    content: updatedPost.content
+                }
+            } else {
+                return post
+            }
+        })
         setPosts(updatedPosts)
     }
 
@@ -101,20 +110,6 @@ const usePosts = () => {
     useEffect(() => {
         getPosts();
     }, [getPosts]);
-
-    // const [user, setUser] = useState();
-    // useEffect(() => {
-    //     fetch("https://jsonplaceholder.typicode.com/users")
-    //         .then(response => response.json())
-    //         .then(json => setUser(json));
-    // }, []);
-
-    // useEffect(() => {
-    //     effect
-    //     return () => {
-    //         cleanup
-    //     };
-    // }, [input]);
 
     return {
         isGettingPosts,
