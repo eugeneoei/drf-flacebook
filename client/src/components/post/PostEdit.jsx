@@ -6,11 +6,11 @@ import { Spinner } from "../ui/Spinner";
 
 const PostEdit = () => {
     const {
-        updatedContent,
-        handleCloseEdit,
-        handleContentChange,
+        updatedPostContent,
+        handleCloseEditPostModal,
+        handlePostContentChange,
         isUpdatingPost,
-        handleUpdate
+        handleUpdatePost
     } = usePost();
 
     return (
@@ -19,7 +19,7 @@ const PostEdit = () => {
                 <h1 className="text-lg font-bold">Edit Post</h1>
                 <button
                     className="hover:bg-slate-100 p-2 rounded-full w-10 h-10 absolute right-0 -top-2"
-                    onClick={handleCloseEdit}
+                    onClick={handleCloseEditPostModal}
                 >
                     <FontAwesomeIcon
                         icon={faXmark}
@@ -27,27 +27,25 @@ const PostEdit = () => {
                     />
                 </button>
             </div>
-            <form onSubmit={handleUpdate} className="text-center">
+            <form onSubmit={handleUpdatePost} className="text-center">
                 <textarea
                     className="rounded-xl bg-slate-100 w-full p-4 focus:outline-none resize-y my-4 disabled:hover:cursor-progress disabled:opacity-60"
                     rows={20}
-                    value={updatedContent}
-                    onChange={handleContentChange}
+                    value={updatedPostContent}
+                    onChange={handlePostContentChange}
                     disabled={isUpdatingPost}
                 />
-                {
-                    isUpdatingPost ? (
-                        <Spinner />
-                    ) : (
-                        <button
-                            type="submit"
-                            onClick={handleUpdate}
-                            className="w-full bg-sky-700 border-2 border-sky-700 rounded text-white p-2"
-                        >
-                            Update
-                        </button>
-                    )
-                }
+                {isUpdatingPost ? (
+                    <Spinner />
+                ) : (
+                    <button
+                        type="submit"
+                        onClick={handleUpdatePost}
+                        className="w-full bg-sky-700 border-2 border-sky-700 rounded text-white p-2"
+                    >
+                        Update
+                    </button>
+                )}
             </form>
         </Modal>
     );

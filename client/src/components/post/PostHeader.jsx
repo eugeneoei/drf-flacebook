@@ -12,10 +12,10 @@ const PostHeader = () => {
     const {
         createdAt,
         user,
-        handleEdit,
-        handleShowDeleteConfirmation,
+        handleEditPost,
+        handleShowDeleteConfirmationModal,
         showActionsPopper,
-        handleToggleShowActions,
+        handleTogglePostActionsPopper,
         postActionsRef
     } = usePost();
     const { loggedInUser } = useLoggedInUser();
@@ -43,7 +43,7 @@ const PostHeader = () => {
                 <div className="flex-none relative" ref={postActionsRef}>
                     <button
                         className="hover:bg-slate-100 p-2 rounded-full w-10 h-10"
-                        onClick={handleToggleShowActions}
+                        onClick={handleTogglePostActionsPopper}
                     >
                         <FontAwesomeIcon
                             icon={faEllipsis}
@@ -54,7 +54,7 @@ const PostHeader = () => {
                         <div className="absolute -bottom-20 right-0 py-2 w-28 bg-white shadow-2xl border-2 border-gray-100">
                             <button
                                 className="block hover:bg-slate-100 w-full text-left px-4 py-2"
-                                onClick={handleEdit}
+                                onClick={handleEditPost}
                             >
                                 <FontAwesomeIcon
                                     icon={faPenToSquare}
@@ -64,7 +64,7 @@ const PostHeader = () => {
                             </button>
                             <button
                                 className="block mt-1 hover:bg-slate-100 w-full text-left px-4 py-2"
-                                onClick={handleShowDeleteConfirmation}
+                                onClick={handleShowDeleteConfirmationModal}
                             >
                                 <FontAwesomeIcon
                                     icon={faTrashCan}

@@ -11,13 +11,13 @@ import { PostEdit } from "./PostEdit";
 import { PostDeleteConfirmation } from "./PostDeleteConfirmation";
 
 const Post = ({ like }) => {
-    const { showComments, showEditPost, showDeleteConfirmation } = usePost();
+    const { showComments, showEditPost, showDeleteConfirmationModal } = usePost();
     const { loggedInUser } = useLoggedInUser();
     const isLoggedIn = Boolean(loggedInUser);
 
-    const showPostEditModal = showEditPost && !showDeleteConfirmation;
+    const showPostEditModal = showEditPost && !showDeleteConfirmationModal;
     const showPostDeleteConfirmationModal =
-        !showEditPost && showDeleteConfirmation;
+        !showEditPost && showDeleteConfirmationModal;
 
     return (
         <PostLayout>

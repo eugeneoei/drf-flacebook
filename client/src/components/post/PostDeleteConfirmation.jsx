@@ -6,15 +6,18 @@ import { Button } from "../ui/Button";
 import { Spinner } from "../ui/Spinner";
 
 const PostDeleteConfirmation = () => {
-    const { handleCloseDeleteConfirmation, isDeletingPost, handleDelete } =
-        usePost();
+    const {
+        handleCloseDeleteConfirmationModal,
+        isDeletingPost,
+        handleDeletePost
+    } = usePost();
     return (
         <Modal>
             <div className="relative">
                 <h1 className="text-lg font-bold">Delete Post</h1>
                 <button
                     className="hover:bg-slate-100 p-2 rounded-full w-10 h-10 absolute right-0 -top-2"
-                    onClick={handleCloseDeleteConfirmation}
+                    onClick={handleCloseDeleteConfirmationModal}
                 >
                     <FontAwesomeIcon
                         icon={faXmark}
@@ -35,13 +38,13 @@ const PostDeleteConfirmation = () => {
                                 type="button"
                                 text="Yes, delete post"
                                 classes="!p-2"
-                                click={handleDelete}
+                                click={handleDeletePost}
                             />
                             <Button
                                 type="button"
                                 text="No, cancel"
                                 classes="!p-2 !invert"
-                                click={handleCloseDeleteConfirmation}
+                                click={handleCloseDeleteConfirmationModal}
                             />
                         </div>
                     )}
