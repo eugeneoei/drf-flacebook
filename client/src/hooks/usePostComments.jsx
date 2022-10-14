@@ -2,46 +2,45 @@ import { useState } from "react";
 import { axiosInstance } from "../utils/axiosInstance";
 import { getCursor } from "../utils/urls";
 
-const usePostComments = (post, updatePostComments, addPostComment) => {
-    const { id, content, createdAt, comments, user } = post;
-    const { next, count: numberOfComments, results } = comments;
+const usePostComments = (postId, comments, updatePostComments, addPostComment) => {
+    const { next, count: numberOfPostComments, results } = comments;
     const cursor = getCursor(next);
-    const hasNextPage = Boolean(next);
+    const hasMoreComments = Boolean(next);
 
-    const [showComments, setShowComments] = useState(false);
-    const [isGettingMoreComments, setIsGettingMoreComments] = useState(false);
-    const [comment, setComment] = useState("");
+    const [showPostComments, setShowPostComments] = useState(false);
+    const [isLoadingMorePostComments, setIsLoadingMorePostComments] = useState(false);
+    const [postComment, setPostComment] = useState("");
 
-    const handleShowComments = () => {
-        setShowComments(true);
+    const handleShowPostComments = () => {
+        setShowPostComments(true);
     };
 
-    const handleCommentChange = e => {
-        setComment(e.target.value);
+    const handlePostCommentChange = e => {
+        setPostComment(e.target.value);
     };
 
-    const handleGetComments = async () => {
-        setIsGettingMoreComments(true);
+    const handleLoadMorePostComments = async () => {
+        setIsLoadingMorePostComments(true);
         const response = await axiosInstance.get(
-            `/api/posts/${id}/comments/?cursor=${cursor}`
+            `/api/posts/${postId}/comments/?cursor=${cursor}`
         );
         const { results, next } = response;
-        updatePostComments(id, {
+        updatePostComments(postId, {
             results,
             next
         });
-        setIsGettingMoreComments(false);
+        setIsLoadingMorePostComments(false);
     };
 
-    const handleCreateComment = async e => {
+    const handleCreatePostComment = async e => {
         e.preventDefault();
         try {
-            const apiEndpoint = `/api/posts/${id}/comments/`;
+            const apiEndpoint = `/api/posts/${postId}/comments/`;
             const response = await axiosInstance.post(apiEndpoint, {
-                content: comment
+                content: postComment
             });
-            addPostComment(id, response);
-            setComment("");
+            addPostComment(postId, response);
+            setPostComment("");
         } catch (error) {
             console.log("create post comment error");
             console.log(error);
@@ -49,20 +48,16 @@ const usePostComments = (post, updatePostComments, addPostComment) => {
     };
 
     return {
-        id,
-        content,
-        createdAt,
-        user,
-        hasNextPage,
+        hasMoreComments,
         comments: results,
-        numberOfComments,
-        showComments,
-        handleShowComments,
-        isGettingMoreComments,
-        handleGetComments,
-        comment,
-        handleCommentChange,
-        handleCreateComment
+        numberOfPostComments,
+        showPostComments,
+        handleShowPostComments,
+        isLoadingMorePostComments,
+        handleLoadMorePostComments,
+        postComment,
+        handlePostCommentChange,
+        handleCreatePostComment
     };
 };
 

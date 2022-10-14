@@ -11,10 +11,11 @@ import { PostEdit } from "./PostEdit";
 import { PostDeleteConfirmation } from "./PostDeleteConfirmation";
 
 const Post = ({ like }) => {
-    const { showComments, showEditPost, showDeleteConfirmationModal } = usePost();
+    const { showPostComments, showEditPost, showDeleteConfirmationModal } = usePost();
     const { loggedInUser } = useLoggedInUser();
     const isLoggedIn = Boolean(loggedInUser);
 
+    const showPostCommensCreate = showPostComments && isLoggedIn
     const showPostEditModal = showEditPost && !showDeleteConfirmationModal;
     const showPostDeleteConfirmationModal =
         !showEditPost && showDeleteConfirmationModal;
@@ -24,8 +25,8 @@ const Post = ({ like }) => {
             <PostHeader />
             <PostBody />
             <PostResponses like={like} />
-            {showComments && isLoggedIn && <PostCommentCreate />}
-            {showComments && <PostComments />}
+            {showPostCommensCreate && <PostCommentCreate />}
+            {showPostComments && <PostComments />}
             {showPostEditModal && <PostEdit />}
             {showPostDeleteConfirmationModal && <PostDeleteConfirmation />}
         </PostLayout>

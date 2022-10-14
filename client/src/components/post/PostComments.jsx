@@ -3,8 +3,12 @@ import { Spinner } from "../ui/Spinner";
 import { usePost } from "../../contexts/usePost";
 
 const PostComments = () => {
-    const { isGettingMoreComments, handleGetComments, comments, hasNextPage } =
-        usePost();
+    const {
+        isLoadingMorePostComments,
+        handleLoadMorePostComments,
+        comments,
+        hasMoreComments
+    } = usePost();
     return (
         <ul className="grid grid-cols-1 gap-4 mt-4">
             {comments.map(comment => {
@@ -33,14 +37,14 @@ const PostComments = () => {
                     </li>
                 );
             })}
-            {hasNextPage && (
+            {hasMoreComments && (
                 <li className="text-center">
-                    {isGettingMoreComments ? (
+                    {isLoadingMorePostComments ? (
                         <Spinner />
                     ) : (
                         <button
                             className="hover:underline h-7"
-                            onClick={handleGetComments}
+                            onClick={handleLoadMorePostComments}
                         >
                             View more comments
                         </button>

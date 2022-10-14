@@ -9,7 +9,7 @@ const Posts = () => {
         posts,
         isGettingPosts,
         isGettingMorePosts,
-        hasNextPage,
+        hasMorePosts,
         getMorePosts,
         updatePostComments,
         addPostComment,
@@ -25,7 +25,7 @@ const Posts = () => {
     const { observe } = useInView({
         threshold: 0.01,
         onEnter: () => {
-            if (hasNextPage && !isGettingMorePosts) {
+            if (hasMorePosts && !isGettingMorePosts) {
                 getMorePosts();
             }
         }
@@ -66,7 +66,7 @@ const Posts = () => {
                     <Post like={handleLike} />
                 </PostProvider>
             ))}
-            {hasNextPage && (
+            {hasMorePosts && (
                 <div ref={observe}>
                     <PostSkeleton />
                     <PostSkeleton marginTop />

@@ -12,16 +12,20 @@ const PostProvider = ({
     deletePost,
     children
 }) => {
-    const comments = usePostComments(post, updatePostComments, addPostComment);
+    const { id, content, createdAt, user, comments } = post
+    const postComments = usePostComments(id, comments, updatePostComments, addPostComment);
     const postActions = usePostActions(
-        post.id,
-        post.content,
+        id,
+        content,
         updatePost,
         deletePost
     );
 
     const value = {
-        ...comments,
+        content,
+        createdAt,
+        user,
+        ...postComments,
         ...postActions
     };
 

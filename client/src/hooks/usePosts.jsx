@@ -6,12 +6,12 @@ const usePosts = () => {
     const [isGettingPosts, setIsGettingPosts] = useState(true);
     const [posts, setPosts] = useState(undefined);
     const [nextPageCursor, setNextPageCursor] = useState(undefined);
-    const [hasNextPage, setHasNextPage] = useState(undefined);
+    const [hasMorePosts, setHasMorePosts] = useState(undefined);
     const [isGettingMorePosts, setIsGettingMorePosts] = useState(false);
 
     const updateNextPageState = url => {
         const hasMore = Boolean(url);
-        setHasNextPage(hasMore);
+        setHasMorePosts(hasMore);
         if (hasMore) {
             setNextPageCursor(getCursor(url));
         }
@@ -111,7 +111,7 @@ const usePosts = () => {
         isGettingPosts,
         isGettingMorePosts,
         posts,
-        hasNextPage,
+        hasMorePosts,
         getMorePosts,
         updatePostComments,
         addPostComment,
