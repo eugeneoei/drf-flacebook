@@ -1,4 +1,4 @@
-import { Posts } from "./sections/posts/Posts";
+import { Posts } from "./sections/Posts";
 const Home = () => {
     return (
         <div className="max-w-xl mx-auto">

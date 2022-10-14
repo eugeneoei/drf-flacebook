@@ -1,8 +1,8 @@
 import { useInView } from "react-cool-inview";
-import { PostProvider } from "../../../../contexts/usePost";
-import { usePosts } from "../../../../hooks/usePosts";
-import { Post } from "../../../../components/post/Post";
-import { PostSkeleton } from "../../../../components/post/PostSkeleton";
+import { PostProvider } from "../../../contexts/usePost";
+import { usePosts } from "../../../hooks/usePosts";
+import { Post } from "../../../components/post/Post";
+import { PostSkeleton } from "../../../components/post/PostSkeleton";
 
 const Posts = () => {
     const {
