@@ -2,7 +2,7 @@ import { useState } from "react";
 import { axiosInstance } from "../utils/axiosInstance";
 import { getCursor } from "../utils/urls";
 
-const usePostComments = (postId, comments, updatePostComments, addPostComment) => {
+const usePostComments = (postId, comments) => {
     const { next, count: numberOfPostComments, results } = comments;
     const cursor = getCursor(next);
     const hasMoreComments = Boolean(next);
@@ -19,27 +19,26 @@ const usePostComments = (postId, comments, updatePostComments, addPostComment) =
         setPostComment(e.target.value);
     };
 
-    const handleLoadMorePostComments = async () => {
+    const handleLoadMorePostComments = async callback => {
         setIsLoadingMorePostComments(true);
         const response = await axiosInstance.get(
             `/api/posts/${postId}/comments/?cursor=${cursor}`
         );
         const { results, next } = response;
-        updatePostComments(postId, {
+        callback(postId, {
             results,
             next
         });
         setIsLoadingMorePostComments(false);
     };
 
-    const handleCreatePostComment = async e => {
-        e.preventDefault();
+    const handleCreatePostComment = async callback => {
         try {
             const apiEndpoint = `/api/posts/${postId}/comments/`;
             const response = await axiosInstance.post(apiEndpoint, {
                 content: postComment
             });
-            addPostComment(postId, response);
+            callback(postId, response);
             setPostComment("");
         } catch (error) {
             console.log("create post comment error");

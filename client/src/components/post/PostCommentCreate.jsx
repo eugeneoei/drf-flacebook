@@ -5,8 +5,17 @@ const PostCommentCreate = () => {
     const { loggedInUser } = useLoggedInUser();
     const { avatar, firstName, lastName } = loggedInUser;
 
-    const { postComment, handlePostCommentChange, handleCreatePostComment } =
-        usePost();
+    const {
+        postComment,
+        handlePostCommentChange,
+        handleCreatePostComment,
+        addPostComment
+    } = usePost();
+
+    const handleCreate = e => {
+        e.preventDefault();
+        handleCreatePostComment(addPostComment);
+    };
 
     return (
         <div className="flex mt-4">
@@ -15,7 +24,7 @@ const PostCommentCreate = () => {
                 className="rounded-full flex-none mr-2 w-9 h-9"
                 alt={`${firstName}-${lastName}`}
             />
-            <form className="flex-1" onSubmit={handleCreatePostComment}>
+            <form className="flex-1" onSubmit={handleCreate}>
                 <input
                     placeholder="Write a comment..."
                     className="rounded-xl bg-slate-100 px-3 py-2 w-full focus:outline-none resize-y"

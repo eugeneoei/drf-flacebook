@@ -7,8 +7,14 @@ const PostComments = () => {
         isLoadingMorePostComments,
         handleLoadMorePostComments,
         comments,
-        hasMoreComments
+        hasMoreComments,
+        updatePostComments
     } = usePost();
+
+    const handleLoadMore = () => {
+        handleLoadMorePostComments(updatePostComments)
+    }
+
     return (
         <ul className="grid grid-cols-1 gap-4 mt-4">
             {comments.map(comment => {
@@ -44,7 +50,7 @@ const PostComments = () => {
                     ) : (
                         <button
                             className="hover:underline h-7"
-                            onClick={handleLoadMorePostComments}
+                            onClick={handleLoadMore}
                         >
                             View more comments
                         </button>
