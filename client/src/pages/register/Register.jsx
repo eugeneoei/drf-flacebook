@@ -15,6 +15,7 @@ import { AlertInput } from "../../components/ui/AlertInput";
 import { Spinner } from "../../components/ui/Spinner";
 import { AlertSnackbar } from "../../components/ui/AlertSnackbar";
 import { useLogin } from "../login/hooks/useLogin";
+import { Input } from "../../components/ui/Input";
 
 const Register = () => {
     const [avatarFile, setAvatarFile] = useState(undefined);
@@ -36,7 +37,7 @@ const Register = () => {
     const { registerUser, isRegisterLoading, registrationError } =
         useRegister();
     const { loggedInUser, updateUser } = useLoggedInUser();
-    const { login } = useLogin()
+    const { login } = useLogin();
 
     const {
         register,
@@ -51,7 +52,7 @@ const Register = () => {
             ...data,
             ...(avatarFile && { avatar: avatarFile })
         });
-        const user = await login(data.email, data.password)
+        const user = await login(data.email, data.password);
         updateUser(user);
     };
 
@@ -97,12 +98,12 @@ const Register = () => {
                     <label htmlFor="firstName" className="block">
                         First Name <span className="text-red-600">*</span>
                     </label>
-                    <input
+                    <Input
                         type="text"
                         id="firstName"
                         defaultValue=""
+                        disabled={isRegisterLoading}
                         {...register("firstName")}
-                        className="block w-full mt-2 p-2 rounded"
                     />
                     {errors.firstName && (
                         <AlertInput message={errors.firstName.message} />
@@ -112,12 +113,12 @@ const Register = () => {
                     <label htmlFor="lastName" className="block">
                         Last Name <span className="text-red-600">*</span>
                     </label>
-                    <input
+                    <Input
                         type="text"
                         id="lastName"
                         defaultValue=""
+                        disabled={isRegisterLoading}
                         {...register("lastName")}
-                        className="block w-full mt-2 p-2 rounded"
                     />
                     {errors.lastName && (
                         <AlertInput message={errors.lastName.message} />
@@ -127,12 +128,12 @@ const Register = () => {
                     <label htmlFor="email" className="block">
                         Email <span className="text-red-600">*</span>
                     </label>
-                    <input
+                    <Input
                         type="email"
                         id="email"
                         defaultValue=""
+                        disabled={isRegisterLoading}
                         {...register("email")}
-                        className="block w-full mt-2 p-2 rounded"
                     />
                     {errors.email && (
                         <AlertInput message={errors.email.message} />
@@ -142,12 +143,12 @@ const Register = () => {
                     <label htmlFor="password" className="block">
                         Password <span className="text-red-600">*</span>
                     </label>
-                    <input
+                    <Input
                         type="password"
                         id="password"
                         defaultValue=""
+                        disabled={isRegisterLoading}
                         {...register("password")}
-                        className="block w-full mt-2 p-2 rounded"
                     />
                     {errors.password && (
                         <AlertInput message={errors.password.message} />
@@ -157,12 +158,12 @@ const Register = () => {
                     <label htmlFor="confirmPassword" className="block">
                         Confirm Password <span className="text-red-600">*</span>
                     </label>
-                    <input
+                    <Input
                         type="password"
                         id="confirmPassword"
                         defaultValue=""
+                        disabled={isRegisterLoading}
                         {...register("confirmPassword")}
-                        className="block w-full mt-2 p-2 rounded"
                     />
                     {errors.confirmPassword && (
                         <AlertInput message={errors.confirmPassword.message} />

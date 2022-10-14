@@ -10,6 +10,7 @@ import { AlertSnackbar } from "../../components/ui/AlertSnackbar";
 import { Button } from "../../components/ui/Button";
 import { Spinner } from "../../components/ui/Spinner";
 import { LoginRegisterFormLayout } from "../../components/layouts/LoginRegisterFormLayout";
+import { Input } from "../../components/ui/Input";
 
 const Login = () => {
     const {
@@ -45,13 +46,12 @@ const Login = () => {
                     <label htmlFor="email" className="block">
                         Email
                     </label>
-                    <input
+                    <Input
                         type="email"
                         id="email"
                         defaultValue=""
                         disabled={isLoginLoading}
                         {...register("email")}
-                        className="block w-full mt-2 p-2 rounded"
                     />
                     {errors.email && (
                         <AlertInput message={errors.email.message} />
@@ -61,13 +61,12 @@ const Login = () => {
                     <label htmlFor="password" className="block">
                         Password
                     </label>
-                    <input
+                    <Input
                         type="password"
                         id="password"
                         defaultValue=""
                         disabled={isLoginLoading}
                         {...register("password")}
-                        className="block w-full mt-2 p-2 rounded"
                     />
                     {errors.password && (
                         <AlertInput message={errors.password.message} />
