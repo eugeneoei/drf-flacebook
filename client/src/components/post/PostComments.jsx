@@ -6,8 +6,8 @@ const PostComments = () => {
     const {
         isLoadingMorePostComments,
         handleLoadMorePostComments,
-        comments,
-        hasMoreComments,
+        postComments,
+        hasMorePostComments,
         updatePostComments
     } = usePost();
 
@@ -17,7 +17,7 @@ const PostComments = () => {
 
     return (
         <ul className="grid grid-cols-1 gap-4 mt-4">
-            {comments.map(comment => {
+            {postComments.map(comment => {
                 const { id, content, createdAt, user } = comment;
                 const { avatar, firstName, lastName } = user;
                 return (
@@ -43,7 +43,7 @@ const PostComments = () => {
                     </li>
                 );
             })}
-            {hasMoreComments && (
+            {hasMorePostComments && (
                 <li className="text-center">
                     {isLoadingMorePostComments ? (
                         <Spinner />
@@ -57,7 +57,7 @@ const PostComments = () => {
                     )}
                 </li>
             )}
-            {comments.length === 0 && (
+            {postComments.length === 0 && (
                 <li className="text-center">Be the first to comment!</li>
             )}
         </ul>

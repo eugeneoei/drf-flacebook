@@ -3,12 +3,17 @@ import { axiosInstance } from "../utils/axiosInstance";
 import { getCursor } from "../utils/urls";
 
 const usePostComments = (postId, comments) => {
-    const { next, count: numberOfPostComments, results } = comments;
+    const {
+        next,
+        count: numberOfPostComments,
+        results: postComments
+    } = comments;
     const cursor = getCursor(next);
-    const hasMoreComments = Boolean(next);
+    const hasMorePostComments = Boolean(next);
 
     const [showPostComments, setShowPostComments] = useState(false);
-    const [isLoadingMorePostComments, setIsLoadingMorePostComments] = useState(false);
+    const [isLoadingMorePostComments, setIsLoadingMorePostComments] =
+        useState(false);
     const [postComment, setPostComment] = useState("");
 
     const handleShowPostComments = () => {
@@ -47,8 +52,8 @@ const usePostComments = (postId, comments) => {
     };
 
     return {
-        hasMoreComments,
-        comments: results,
+        hasMorePostComments,
+        postComments,
         numberOfPostComments,
         showPostComments,
         handleShowPostComments,
