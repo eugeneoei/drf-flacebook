@@ -3,7 +3,7 @@ import { useClickAway } from "react-use";
 import { axiosInstance } from "../utils/axiosInstance";
 import { lockBodyElement, unlockBodyElement } from "../utils/dom";
 
-const usePostActions = (postId, postContent) => {
+const usePostEditAndDelete = (postId, postContent) => {
     const [updatedPostContent, setUpdatedPostContent] = useState(postContent);
     const [showEditPost, setShowEditPost] = useState(false);
     const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
@@ -101,4 +101,4 @@ const usePostActions = (postId, postContent) => {
     };
 };
 
-export { usePostActions };
+export { usePostEditAndDelete };

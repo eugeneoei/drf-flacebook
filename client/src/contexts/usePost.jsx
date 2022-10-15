@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { usePostActions } from "../hooks/usePostActions";
+import { usePostEditAndDelete } from "../hooks/usePostEditAndDelete";
 import { usePostComments } from "../hooks/usePostComments";
 
 const PostContext = createContext();
@@ -14,7 +14,7 @@ const PostProvider = ({
 }) => {
     const { id, content, createdAt, user, comments } = post
     const postComments = usePostComments(id, comments);
-    const postActions = usePostActions(id, content);
+    const postActions = usePostEditAndDelete(id, content);
 
     const value = {
         content,
