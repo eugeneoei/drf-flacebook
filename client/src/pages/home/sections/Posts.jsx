@@ -4,6 +4,7 @@ import { usePosts } from "../../../hooks/usePosts";
 import { Post } from "../../../components/post/Post";
 import { PostSkeleton } from "../../../components/post/PostSkeleton";
 import { PostCreate } from "../../../components/post/PostCreate";
+import { useLoggedInUser } from "../../../contexts/useLoggedInUser";
 
 const Posts = () => {
     const {
@@ -18,6 +19,7 @@ const Posts = () => {
         removePostFromStore,
         addPostToStore
     } = usePosts();
+    const { loggedInUser } = useLoggedInUser();
 
     const handleLike = () => {
         // ! if user is not logged in, not allowed
@@ -56,7 +58,7 @@ const Posts = () => {
 
     return (
         <div className="grid grid-cols-1 gap-4" id="posts">
-            <PostCreate addPostToStore={addPostToStore} />
+            {loggedInUser && <PostCreate addPostToStore={addPostToStore} />}
             {posts.map(post => (
                 <PostProvider
                     key={post.id}

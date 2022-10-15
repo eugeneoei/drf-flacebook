@@ -149,7 +149,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PAGINATION_CLASS": "app.pagination.CustomCursorPagination",
-    "PAGE_SIZE": 2
+    "PAGE_SIZE": 5
 }
 
 SIMPLE_JWT = {
