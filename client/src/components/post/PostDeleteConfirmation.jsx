@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { usePost } from "../../contexts/usePost";
 import { Modal } from "../ui/Modal";
 import { Button } from "../ui/Button";
@@ -18,19 +16,7 @@ const PostDeleteConfirmation = () => {
     }
 
     return (
-        <Modal>
-            <div className="relative">
-                <h1 className="text-lg font-bold">Delete Post</h1>
-                <button
-                    className="hover:bg-slate-100 p-2 rounded-full w-10 h-10 absolute right-0 -top-2"
-                    onClick={handleCloseDeleteConfirmationModal}
-                >
-                    <FontAwesomeIcon
-                        icon={faXmark}
-                        className="h-4 text-slate-500"
-                    />
-                </button>
-            </div>
+        <Modal title="Delete Post" close={handleCloseDeleteConfirmationModal}>
             <div className="mt-4 text-center">
                 <p className="py-4">
                     Are you sure you want to delete this post?
