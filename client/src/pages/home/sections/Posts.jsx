@@ -3,6 +3,7 @@ import { PostProvider } from "../../../contexts/usePost";
 import { usePosts } from "../../../hooks/usePosts";
 import { Post } from "../../../components/post/Post";
 import { PostSkeleton } from "../../../components/post/PostSkeleton";
+import { PostCreate } from "../../../components/post/PostCreate";
 
 const Posts = () => {
     const {
@@ -14,7 +15,8 @@ const Posts = () => {
         updatePostComments,
         addPostComment,
         updatePostInStore,
-        removePostFromStore
+        removePostFromStore,
+        addPostToStore
     } = usePosts();
 
     const handleLike = () => {
@@ -54,6 +56,7 @@ const Posts = () => {
 
     return (
         <div className="grid grid-cols-1 gap-4" id="posts">
+            <PostCreate addPostToStore={addPostToStore} />
             {posts.map(post => (
                 <PostProvider
                     key={post.id}

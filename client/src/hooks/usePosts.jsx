@@ -47,6 +47,11 @@ const usePosts = () => {
         }
     };
 
+    const addPostToStore = post => {
+        const updatedPosts = [post, ...posts]
+        setPosts(updatedPosts)
+    }
+
     const updatePostInStore = (postId, content) => {
         const updatedPosts = posts.map(post =>
             post.id === postId
@@ -113,6 +118,7 @@ const usePosts = () => {
         getMorePosts,
         updatePostComments,
         addPostComment,
+        addPostToStore,
         updatePostInStore,
         removePostFromStore
     };

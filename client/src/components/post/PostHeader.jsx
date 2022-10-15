@@ -27,7 +27,7 @@ const PostHeader = () => {
             <div className="flex-none">
                 <img
                     src={avatar}
-                    className="rounded-full inline-block mr-2 w-16"
+                    className="rounded-full inline-block mr-2 w-12"
                     alt={`${firstName}-${lastName}`}
                 />
             </div>
