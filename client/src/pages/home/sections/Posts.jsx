@@ -7,14 +7,14 @@ import { PostSkeleton } from "../../../components/post/PostSkeleton";
 const Posts = () => {
     const {
         posts,
-        isGettingPosts,
+        isLoadingPosts,
         isGettingMorePosts,
         hasMorePosts,
         getMorePosts,
         updatePostComments,
         addPostComment,
-        updatePost,
-        deletePost
+        updatePostInStore,
+        deletePostInStore
     } = usePosts();
 
     const handleLike = () => {
@@ -31,7 +31,7 @@ const Posts = () => {
         }
     });
 
-    if (isGettingPosts) {
+    if (isLoadingPosts) {
         return (
             <div className="grid grid-cols-1 gap-4">
                 <PostSkeleton />
@@ -60,8 +60,8 @@ const Posts = () => {
                     post={post}
                     updatePostComments={updatePostComments}
                     addPostComment={addPostComment}
-                    updatePost={updatePost}
-                    deletePost={deletePost}
+                    updatePostInStore={updatePostInStore}
+                    deletePostInStore={deletePostInStore}
                 >
                     <Post like={handleLike} />
                 </PostProvider>

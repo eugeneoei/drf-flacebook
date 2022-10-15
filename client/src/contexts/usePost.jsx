@@ -8,8 +8,8 @@ const PostProvider = ({
     post,
     updatePostComments,
     addPostComment,
-    updatePost,
-    deletePost,
+    updatePostInStore,
+    deletePostInStore,
     children
 }) => {
     const { id, content, createdAt, user, comments } = post
@@ -17,8 +17,8 @@ const PostProvider = ({
     const postActions = usePostActions(
         id,
         content,
-        updatePost,
-        deletePost
+        // updatePostInStore,
+        // deletePostInStore
     );
 
     const value = {
@@ -28,7 +28,9 @@ const PostProvider = ({
         ...postComments,
         ...postActions,
         updatePostComments,
-        addPostComment
+        addPostComment,
+        updatePostInStore,
+        deletePostInStore
     };
 
     return (

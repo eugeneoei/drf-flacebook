@@ -3,10 +3,11 @@ import { useClickAway } from "react-use";
 import { axiosInstance } from "../utils/axiosInstance";
 import { lockBodyElement, unlockBodyElement } from "../utils/dom";
 
-const usePostActions = (postId, postContent, updatePost, deletePost) => {
+const usePostActions = (postId, postContent) => {
     const [updatedPostContent, setUpdatedPostContent] = useState(postContent);
     const [showEditPost, setShowEditPost] = useState(false);
-    const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false);
+    const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
+        useState(false);
     const [isUpdatingPost, setIsUpdatingPost] = useState(false);
     const [isDeletingPost, setIsDeletingPost] = useState(false);
 
@@ -36,9 +37,8 @@ const usePostActions = (postId, postContent, updatePost, deletePost) => {
         setUpdatedPostContent(e.target.value);
     };
 
-    const handleUpdatePost = async e => {
+    const handleUpdatePost = async callback => {
         try {
-            e.preventDefault();
             setIsUpdatingPost(true);
             const response = await axiosInstance.patch(
                 `/api/posts/${postId}/`,
@@ -49,7 +49,7 @@ const usePostActions = (postId, postContent, updatePost, deletePost) => {
             setIsUpdatingPost(false);
             setShowEditPost(false);
             unlockBodyElement();
-            updatePost(postId, response);
+            callback(postId, response.content);
         } catch (error) {
             console.log("Error updating post");
             console.log(error);
@@ -70,10 +70,10 @@ const usePostActions = (postId, postContent, updatePost, deletePost) => {
     const handleDeletePost = async () => {
         try {
             setIsDeletingPost(true);
-            await axiosInstance.delete(`/api/posts/${postId}/`);
-            setIsDeletingPost(false);
-            unlockBodyElement();
-            deletePost(postId);
+            // await axiosInstance.delete(`/api/posts/${postId}/`);
+            // setIsDeletingPost(false);
+            // unlockBodyElement();
+            // deletePost(postId);
         } catch (error) {
             console.log("Error deleting post");
             console.log(error);

@@ -10,8 +10,13 @@ const PostEdit = () => {
         handleCloseEditPostModal,
         handlePostContentChange,
         isUpdatingPost,
-        handleUpdatePost
+        handleUpdatePost,
+        updatePostInStore
     } = usePost();
+
+    const handleSubmit = () => {
+        handleUpdatePost(updatePostInStore);
+    };
 
     return (
         <Modal>
@@ -27,7 +32,7 @@ const PostEdit = () => {
                     />
                 </button>
             </div>
-            <form onSubmit={handleUpdatePost} className="text-center">
+            <div className="text-center">
                 <textarea
                     className="rounded-xl bg-slate-100 w-full p-4 focus:outline-none resize-y my-4 disabled:hover:cursor-progress disabled:opacity-60"
                     rows={20}
@@ -39,14 +44,14 @@ const PostEdit = () => {
                     <Spinner />
                 ) : (
                     <button
-                        type="submit"
-                        onClick={handleUpdatePost}
+                        type="button"
+                        onClick={handleSubmit}
                         className="w-full bg-sky-700 border-2 border-sky-700 rounded text-white p-2"
                     >
                         Update
                     </button>
                 )}
-            </form>
+            </div>
         </Modal>
     );
 };

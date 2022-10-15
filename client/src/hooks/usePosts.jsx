@@ -3,7 +3,7 @@ import { axiosInstance } from "../utils/axiosInstance";
 import { getCursor } from "../utils/urls";
 
 const usePosts = () => {
-    const [isGettingPosts, setIsGettingPosts] = useState(true);
+    const [isLoadingPosts, setIsLoadingPosts] = useState(true);
     const [posts, setPosts] = useState(undefined);
     const [nextPageCursor, setNextPageCursor] = useState(undefined);
     const [hasMorePosts, setHasMorePosts] = useState(undefined);
@@ -26,7 +26,7 @@ const usePosts = () => {
         } catch (error) {
             console.log(error);
         } finally {
-            setIsGettingPosts(false);
+            setIsLoadingPosts(false);
         }
     }, []);
 
@@ -47,21 +47,19 @@ const usePosts = () => {
         }
     };
 
-    const updatePost = (postId, updatedPost) => {
-        const updatedPosts = posts.map(post => {
-            if (post.id === postId) {
-                return {
-                    ...post,
-                    content: updatedPost.content
-                };
-            } else {
-                return post;
-            }
-        });
+    const updatePostInStore = (postId, content) => {
+        const updatedPosts = posts.map(post =>
+            post.id === postId
+                ? {
+                      ...post,
+                      content
+                  }
+                : post
+        );
         setPosts(updatedPosts);
     };
 
-    const deletePost = postId => {
+    const deletePostInStore = postId => {
         const updatedPosts = posts.filter(post => post.id !== postId);
         setPosts(updatedPosts);
     };
@@ -108,15 +106,15 @@ const usePosts = () => {
     }, [getPosts]);
 
     return {
-        isGettingPosts,
+        isLoadingPosts,
         isGettingMorePosts,
         posts,
         hasMorePosts,
         getMorePosts,
         updatePostComments,
         addPostComment,
-        updatePost,
-        deletePost
+        updatePostInStore,
+        deletePostInStore
     };
 };
 
