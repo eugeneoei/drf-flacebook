@@ -41,33 +41,33 @@ class PostSerializer(ModelSerializer):
         """
         paginate nested objects using cursor
         """
-        PAGE_SIZE = api_settings.PAGE_SIZE
+        page_size = api_settings.PAGE_SIZE
         comments = obj.comments.all()
-        paginator = Paginator(comments, PAGE_SIZE)
+        paginator = Paginator(comments, page_size)
         paginated_comments = paginator.page(1)
         serializer = CommentSerializer(paginated_comments, many=True)
         number_of_comments = paginator.count
         next = None
 
-        if len(comments) > PAGE_SIZE:
-            last_item = comments[PAGE_SIZE - 1]
+        if len(comments) > page_size:
+            last_item = comments[page_size - 1]
             offset = 0
             position = last_item.created_at
-            Cursor = namedtuple('Cursor', ['offset', 'reverse', 'position'])
+            Cursor = namedtuple("Cursor", ["offset", "reverse", "position"])
             cursor = Cursor(offset=offset, reverse=False, position=position)
 
             tokens = {}
             if cursor.offset != 0:
-                tokens['o'] = str(cursor.offset)
+                tokens["o"] = str(cursor.offset)
             if cursor.reverse:
-                tokens['r'] = '1'
+                tokens["r"] = "1"
             if cursor.position is not None:
-                tokens['p'] = cursor.position
+                tokens["p"] = cursor.position
 
             querystring = parse.urlencode(tokens, doseq=True)
-            encoded = b64encode(querystring.encode('ascii')).decode('ascii')
-            base_url = self.context['request'].build_absolute_uri()
-            cursor_query_param = 'cursor'
+            encoded = b64encode(querystring.encode("ascii")).decode("ascii")
+            base_url = self.context["request"].build_absolute_uri()
+            cursor_query_param = "cursor"
             next = replace_query_param(base_url, cursor_query_param, encoded)
 
         return {

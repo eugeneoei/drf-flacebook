@@ -9,8 +9,14 @@ const PostDeleteConfirmation = () => {
     const {
         handleCloseDeleteConfirmationModal,
         isDeletingPost,
-        handleDeletePost
+        handleDeletePost,
+        removePostFromStore
     } = usePost();
+
+    const handleDelete = () => {
+        handleDeletePost(removePostFromStore)
+    }
+
     return (
         <Modal>
             <div className="relative">
@@ -38,7 +44,7 @@ const PostDeleteConfirmation = () => {
                                 type="button"
                                 text="Yes, delete post"
                                 classes="!p-2"
-                                click={handleDeletePost}
+                                click={handleDelete}
                             />
                             <Button
                                 type="button"

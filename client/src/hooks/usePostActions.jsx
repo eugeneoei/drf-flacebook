@@ -67,13 +67,13 @@ const usePostActions = (postId, postContent) => {
         unlockBodyElement();
     };
 
-    const handleDeletePost = async () => {
+    const handleDeletePost = async callback => {
         try {
             setIsDeletingPost(true);
-            // await axiosInstance.delete(`/api/posts/${postId}/`);
-            // setIsDeletingPost(false);
-            // unlockBodyElement();
-            // deletePost(postId);
+            await axiosInstance.delete(`/api/posts/${postId}/`);
+            setIsDeletingPost(false);
+            unlockBodyElement();
+            callback(postId);
         } catch (error) {
             console.log("Error deleting post");
             console.log(error);

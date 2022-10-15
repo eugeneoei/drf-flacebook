@@ -59,7 +59,7 @@ const usePosts = () => {
         setPosts(updatedPosts);
     };
 
-    const deletePostInStore = postId => {
+    const removePostFromStore = postId => {
         const updatedPosts = posts.filter(post => post.id !== postId);
         setPosts(updatedPosts);
     };
@@ -114,7 +114,7 @@ const usePosts = () => {
         updatePostComments,
         addPostComment,
         updatePostInStore,
-        deletePostInStore
+        removePostFromStore
     };
 };
 

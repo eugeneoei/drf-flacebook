@@ -14,7 +14,7 @@ const Posts = () => {
         updatePostComments,
         addPostComment,
         updatePostInStore,
-        deletePostInStore
+        removePostFromStore
     } = usePosts();
 
     const handleLike = () => {
@@ -61,7 +61,7 @@ const Posts = () => {
                     updatePostComments={updatePostComments}
                     addPostComment={addPostComment}
                     updatePostInStore={updatePostInStore}
-                    deletePostInStore={deletePostInStore}
+                    removePostFromStore={removePostFromStore}
                 >
                     <Post like={handleLike} />
                 </PostProvider>
