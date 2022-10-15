@@ -21,7 +21,7 @@ const usePostEditAndDelete = (postId, postContent) => {
         setShowActionsPopper(!showActionsPopper);
     };
 
-    const handleEditPost = () => {
+    const handleOpenEditPostModal = () => {
         setShowEditPost(true);
         setShowActionsPopper(false);
         lockBodyElement();
@@ -83,18 +83,16 @@ const usePostEditAndDelete = (postId, postContent) => {
     return {
         showEditPost,
         updatedPostContent,
-        handleEditPost,
+        handleOpenEditPostModal,
         handleCloseEditPostModal,
         handlePostContentChange,
         isUpdatingPost,
         handleUpdatePost,
         isDeletingPost,
         handleDeletePost,
-
         showActionsPopper,
         handleTogglePostActionsPopper,
         postActionsRef,
-
         showDeleteConfirmationModal,
         handleShowDeleteConfirmationModal,
         handleCloseDeleteConfirmationModal

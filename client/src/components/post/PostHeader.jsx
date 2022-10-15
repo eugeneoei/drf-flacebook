@@ -12,7 +12,7 @@ const PostHeader = () => {
     const {
         createdAt,
         user,
-        handleEditPost,
+        handleOpenEditPostModal,
         handleShowDeleteConfirmationModal,
         showActionsPopper,
         handleTogglePostActionsPopper,
@@ -54,7 +54,7 @@ const PostHeader = () => {
                         <div className="absolute -bottom-20 right-0 py-2 w-28 bg-white shadow-2xl border-2 border-gray-100">
                             <button
                                 className="block hover:bg-slate-100 w-full text-left px-4 py-2"
-                                onClick={handleEditPost}
+                                onClick={handleOpenEditPostModal}
                             >
                                 <FontAwesomeIcon
                                     icon={faPenToSquare}
