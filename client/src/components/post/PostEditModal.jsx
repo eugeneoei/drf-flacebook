@@ -2,7 +2,7 @@ import { Modal } from "../ui/Modal";
 import { usePost } from "../../contexts/usePost";
 import { Spinner } from "../ui/Spinner";
 
-const PostEdit = () => {
+const PostEditModal = () => {
     const {
         updatedPostContent,
         handleCloseEditPostModal,
@@ -42,4 +42,4 @@ const PostEdit = () => {
     );
 };
 
-export { PostEdit };
+export { PostEditModal };

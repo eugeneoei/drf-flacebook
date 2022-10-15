@@ -3,7 +3,7 @@ import { Modal } from "../ui/Modal";
 import { Button } from "../ui/Button";
 import { Spinner } from "../ui/Spinner";
 
-const PostDeleteConfirmation = () => {
+const PostDeleteConfirmationModal = () => {
     const {
         handleCloseDeleteConfirmationModal,
         isDeletingPost,
@@ -46,4 +46,4 @@ const PostDeleteConfirmation = () => {
     );
 };
 
-export { PostDeleteConfirmation };
+export { PostDeleteConfirmationModal };
